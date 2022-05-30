@@ -2,7 +2,7 @@
 
 Api para leer, crear, modificar y borrar proyectos de una base de datos de proyectos musicales. Todos los endpoints estan protegidos para usuarios no registrados.
 
-## Endpoints que llamarán a los métodos anteriores.
+## Endpoints de la API.
 
 ### Usuarios
 
