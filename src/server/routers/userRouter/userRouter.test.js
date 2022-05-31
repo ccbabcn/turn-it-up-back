@@ -46,4 +46,16 @@ describe("Given a POST 'user/register' endpoint", () => {
       expect(body.msg).toBe(expectedMessage);
     });
   });
+
+  describe("When it receives a request with username that already exists", () => {
+    test("Then it should respond with status 409 and message 'New user created succesfully''", async () => {
+      const expectedMessage = "User already exists";
+      const { body } = await request(app)
+        .post("/user/register")
+        .send(newMockUser)
+        .expect(409);
+
+      expect(body.message).toBe(expectedMessage);
+    });
+  });
 });
