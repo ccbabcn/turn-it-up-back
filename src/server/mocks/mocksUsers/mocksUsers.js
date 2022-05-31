@@ -20,4 +20,10 @@ const mockUser = {
   password: "CA32A1E4F9CB46B6D99FC627F9EB4AC606BC3474",
 };
 
-module.exports = { mockUsers, mockUser };
+const newMockUser = {
+  name: "marta",
+  username: "marta",
+  password: "marta",
+};
+
+module.exports = { mockUsers, mockUser, newMockUser };
