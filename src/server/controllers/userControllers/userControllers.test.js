@@ -47,4 +47,19 @@ describe("Given a userRegister function", () => {
       expect(next).toHaveBeenCalledWith(expectedError);
     });
   });
+
+  describe("When it's invoked an a error occurs", () => {
+    test("Then it should call next with an error", async () => {
+      const expectedError = new Error("Bad request");
+      const req = {
+        body: mockUser,
+      };
+
+      User.findOne = jest.fn().mockRejectedValue(expectedError);
+
+      await userRegister(req, null, next);
+
+      expect(next).toHaveBeenCalledWith(expectedError);
+    });
+  });
 });
