@@ -58,4 +58,16 @@ describe("Given a POST 'user/register' endpoint", () => {
       expect(body.message).toBe(expectedMessage);
     });
   });
+
+  describe("When it receives a bad request", () => {
+    test("Then it should respond with status 409 and message 'New user created succesfully''", async () => {
+      const expectedMessage = "Bad request";
+      const { body } = await request(app)
+        .post("/user/register")
+        .send({})
+        .expect(400);
+
+      expect(body.msg).toBe(expectedMessage);
+    });
+  });
 });
