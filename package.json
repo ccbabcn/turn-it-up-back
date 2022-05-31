@@ -45,7 +45,8 @@
       "src/**/*.js",
       "!src/index.js",
       "!src/database/index.js",
-      "!src/server/initializeServer.js"
+      "!src/server/initializeServer.js",
+      "!src/server/index.js"
     ]
   }
 }
