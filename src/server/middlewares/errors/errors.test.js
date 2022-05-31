@@ -1,4 +1,5 @@
-const { notFoundError, generalError } = require("./errors");
+const { ValidationError } = require("express-validation");
+const { notFoundError, generalError, validationError } = require("./errors");
 
 describe("Given a notFoundError function", () => {
   describe("When it's invoked", () => {
@@ -23,7 +24,6 @@ describe("Given a generalError function", () => {
       };
       const receivedError = new Error();
       const expectederror = {
-        error: true,
         message: "Internal Server Error",
       };
 
@@ -45,7 +45,6 @@ describe("Given a generalError function", () => {
       };
       const expectedStatusCode = 409;
       const expectederror = {
-        error: true,
         message: "Conlfict Error",
       };
 
@@ -53,6 +52,43 @@ describe("Given a generalError function", () => {
 
       expect(res.status).toHaveBeenCalledWith(expectedStatusCode);
       expect(res.json).toHaveBeenCalledWith(expectederror);
+    });
+  });
+});
+
+describe("Given a validationError function", () => {
+  const res = {
+    status: jest.fn().mockReturnThis(),
+    json: jest.fn(),
+  };
+  describe("When it's invoked with an error thats an instance of ValidationError", () => {
+    test("then it should call res' status method with 400 and json method with a msg 'Bad request'", () => {
+      const errors = {
+        body: [{}],
+      };
+      const options = { error: "Invalid Request", statusCode: 400 };
+      const newValidationError = new ValidationError(errors, options);
+
+      const expectedStatusCode = 400;
+      const expectedMessage = {
+        msg: "Bad request",
+      };
+
+      validationError(newValidationError, null, res);
+
+      expect(res.status).toHaveBeenCalledWith(expectedStatusCode);
+      expect(res.json).toHaveBeenCalledWith(expectedMessage);
+    });
+  });
+
+  describe("When its invoked with an error that's not an instance of ValidationError", () => {
+    test("Then it sould call next with an error", () => {
+      const newError = new Error();
+      const next = jest.fn();
+
+      validationError(newError, null, res, next);
+
+      expect(next).toBeCalledWith(newError);
     });
   });
 });

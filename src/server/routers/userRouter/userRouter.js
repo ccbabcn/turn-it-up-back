@@ -6,3 +6,5 @@ const userRegisterCredentials = require("../../schemas/userCredentials");
 const userRouter = express.Router();
 
 userRouter.post("/register", validate(userRegisterCredentials), userRegister);
+
+module.exports = userRouter;
