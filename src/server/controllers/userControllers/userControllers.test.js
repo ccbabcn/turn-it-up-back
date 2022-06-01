@@ -16,7 +16,7 @@ const next = jest.fn();
 describe("Given a userRegister function", () => {
   describe("When it's called with a new name, username and password", () => {
     test("Then it should call the response method status with 201 and it's json method with the message 'User created'", async () => {
-      const expectedMessage = { msg: "User created" };
+      const expectedMessage = { message: "User created" };
 
       const req = {
         body: mockUser,

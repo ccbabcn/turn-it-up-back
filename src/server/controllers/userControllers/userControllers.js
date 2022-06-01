@@ -27,7 +27,7 @@ const userRegister = async (req, res, next) => {
     await User.create(queryCreate);
 
     debug(chalk.green("User created"));
-    res.status(201).json({ msg: "User created" });
+    res.status(201).json({ message: "User created" });
   } catch (error) {
     error.statusCode = 400;
     debug(chalk.red("Bad request"));

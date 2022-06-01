@@ -30,7 +30,7 @@ afterAll(async () => {
 
 describe("Given a POST 'user/register' endpoint", () => {
   describe("When it receives a request with valid name, username and password", () => {
-    test("Then it should respond with status 201 and message 'New user created succesfully''", async () => {
+    test("Then it should respond with status 201 and message 'User created'", async () => {
       const expectedMessage = "User created";
       const newUser = {
         name: "johndoe",
@@ -43,12 +43,12 @@ describe("Given a POST 'user/register' endpoint", () => {
         .send(newUser)
         .expect(201);
 
-      expect(body.msg).toBe(expectedMessage);
+      expect(body.message).toBe(expectedMessage);
     });
   });
 
   describe("When it receives a request with username that already exists", () => {
-    test("Then it should respond with status 409 and message 'New user created succesfully''", async () => {
+    test("Then it should respond with status 409 and message 'User already exists'", async () => {
       const expectedMessage = "User already exists";
       const { body } = await request(app)
         .post("/user/register")
@@ -60,14 +60,14 @@ describe("Given a POST 'user/register' endpoint", () => {
   });
 
   describe("When it receives a bad request", () => {
-    test("Then it should respond with status 409 and message 'New user created succesfully''", async () => {
+    test("Then it should respond with status 409 and message 'Bad request'", async () => {
       const expectedMessage = "Bad request";
       const { body } = await request(app)
         .post("/user/register")
         .send({})
         .expect(400);
 
-      expect(body.msg).toBe(expectedMessage);
+      expect(body.message).toBe(expectedMessage);
     });
   });
 });
