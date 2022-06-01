@@ -62,7 +62,7 @@ describe("Given a validationError function", () => {
     json: jest.fn(),
   };
   describe("When it's invoked with an error thats an instance of ValidationError", () => {
-    test("then it should call res' status method with 400 and json method with a msg 'Bad request'", () => {
+    test("then it should call res' status method with 400 and json method with a message 'Bad request'", () => {
       const errors = {
         body: [{}],
       };
@@ -71,7 +71,7 @@ describe("Given a validationError function", () => {
 
       const expectedStatusCode = 400;
       const expectedMessage = {
-        msg: "Bad request",
+        message: "Bad request",
       };
 
       validationError(newValidationError, null, res);

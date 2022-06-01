@@ -18,4 +18,18 @@ const userRegisterCredentials = {
   }),
 };
 
-module.exports = userRegisterCredentials;
+const userLoginCredentials = {
+  body: Joi.object({
+    username: Joi.string()
+      .max(20)
+      .messages({ message: "A username is Required" })
+      .required(),
+    password: Joi.string()
+      .min(5)
+      .max(20)
+      .messages({ message: "A Password is Required" })
+      .required(),
+  }),
+};
+
+module.exports = { userRegisterCredentials, userLoginCredentials };

@@ -1,6 +1,7 @@
 const bcrypt = require("bcrypt");
 const debug = require("debug")("turnitup:server:userControllers");
 const chalk = require("chalk");
+const jsonwebtoken = require("jsonwebtoken");
 const User = require("../../../database/models/User");
 const customError = require("../../../utils/customError/customError");
 
@@ -27,7 +28,7 @@ const userRegister = async (req, res, next) => {
     await User.create(queryCreate);
 
     debug(chalk.green("User created"));
-    res.status(201).json({ msg: "User created" });
+    res.status(201).json({ message: "User created" });
   } catch (error) {
     error.statusCode = 400;
     debug(chalk.red("Bad request"));
@@ -36,4 +37,41 @@ const userRegister = async (req, res, next) => {
   }
 };
 
-module.exports = userRegister;
+const userLogin = async (req, res, next) => {
+  try {
+    const { username, password } = req.body;
+    const queryFindOne = {
+      username,
+    };
+    const user = await User.findOne(queryFindOne);
+
+    if (user) {
+      const checkPassword = await bcrypt.compare(password, user.password);
+
+      if (checkPassword) {
+        const userData = {
+          username: user.username,
+          id: user.id,
+        };
+
+        const token = jsonwebtoken.sign(userData, process.env.JWT_SECRET);
+        res.status(200).json({ token });
+      } else {
+        const error = new Error();
+        error.statusCode = 401;
+        error.customMessage = "Incorrect username or password";
+        next(error);
+        return;
+      }
+    } else {
+      const error = new Error();
+      error.statusCode = 401;
+      error.customMessage = "Incorrect username or password";
+      next(error);
+    }
+  } catch (error) {
+    next(error);
+  }
+};
+
+module.exports = { userRegister, userLogin };

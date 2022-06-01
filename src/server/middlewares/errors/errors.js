@@ -12,7 +12,7 @@ const notFoundError = (req, res, next) => {
 
 const validationError = (error, req, res, next) => {
   if (error instanceof ValidationError) {
-    res.status(400).json({ msg: "Bad request" });
+    res.status(400).json({ message: "Bad request" });
     debug(chalk.bgRedBright(error.message));
   } else {
     next(error);
