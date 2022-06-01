@@ -43,7 +43,6 @@ const userLogin = async (req, res, next) => {
     const queryFindOne = {
       username,
     };
-
     const user = await User.findOne(queryFindOne);
 
     if (user) {
@@ -56,8 +55,7 @@ const userLogin = async (req, res, next) => {
         };
 
         const token = jsonwebtoken.sign(userData, process.env.JWT_SECRET);
-
-        res.status(201).json({ token });
+        res.status(200).json({ token });
       } else {
         const error = new Error();
         error.statusCode = 401;

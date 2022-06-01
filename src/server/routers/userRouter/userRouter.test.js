@@ -2,6 +2,7 @@ require("dotenv").config();
 const { MongoMemoryServer } = require("mongodb-memory-server");
 const mongoose = require("mongoose");
 const request = require("supertest");
+const jsonwebtoken = require("jsonwebtoken");
 const app = require("../../index");
 const connectDatabase = require("../../../database");
 
@@ -26,6 +27,39 @@ afterEach(async () => {
 afterAll(async () => {
   await mongoose.connection.close();
   await mongoServer.stop();
+});
+
+describe("Given a POST 'user/login' endpoint", () => {
+  describe("When it receives a request with valid username and password", () => {
+    test("Then it should respond with status 200 and a token", async () => {
+      jsonwebtoken.sign = jest.fn().mockReturnValue("toquencito");
+      const usertoLog = {
+        username: newMockUser.username,
+        password: newMockUser.password,
+      };
+
+      const { body } = await request(app)
+        .post("/user/login")
+        .send(usertoLog)
+        .expect(200);
+      expect(body.token).toBe("toquencito");
+    });
+  });
+
+  describe("When it receives a request with invalid username and password", () => {
+    test("Then it should respond with status 400 and a 'Bad request message'", async () => {
+      const usertoLog = {
+        username: "",
+        password: "",
+      };
+
+      const { body } = await request(app)
+        .post("/user/login")
+        .send(usertoLog)
+        .expect(400);
+      expect(body.message).toBe("Bad request");
+    });
+  });
 });
 
 describe("Given a POST 'user/register' endpoint", () => {
