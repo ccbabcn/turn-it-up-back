@@ -1,94 +1,80 @@
 {
-	"info": {
-		"_postman_id": "911f2fe1-9814-46b0-9cb2-4b70ab6630ae",
-		"name": "Turn-it-Up-Cristian-Bermudez",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "20626868"
-	},
-	"item": [
-		{
-			"name": "Register",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{ \"name\":\"marta\",\r\n    \"username\":\"marta\", \r\n    \"password\":\"marta\" }",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{(origin)}/user/register",
-					"host": [
-						"{(origin)}"
-					],
-					"path": [
-						"user",
-						"register"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Login",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"username\":\"marta\",\r\n    \"password\":\"marta\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{origin}}/user/login",
-					"host": [
-						"{{origin}}"
-					],
-					"path": [
-						"user",
-						"login"
-					]
-				}
-			},
-			"response": []
-		}
-	],
-	"auth": {
-		"type": "bearer"
-	},
-	"event": [
-		{
-			"listen": "prerequest",
-			"script": {
-				"type": "text/javascript",
-				"exec": [
-					""
-				]
-			}
-		},
-		{
-			"listen": "test",
-			"script": {
-				"type": "text/javascript",
-				"exec": [
-					""
-				]
-			}
-		}
-	],
-	"variable": [
-		{
-			"key": "origin",
-			"value": "https://cristian-bermudez-back-final-project.onrender.com",
-			"type": "string"
-		}
-	]
+  "info": {
+    "_postman_id": "911f2fe1-9814-46b0-9cb2-4b70ab6630ae",
+    "name": "Turn-it-Up-Cristian-Bermudez",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "20626868"
+  },
+  "item": [
+    {
+      "name": "Register",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{ \"name\":\"marta\",\r\n    \"username\":\"marta\", \r\n    \"password\":\"marta\" }",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{(origin)}/user/register",
+          "host": ["{(origin)}"],
+          "path": ["user", "register"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Login",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"username\":\"marta\",\r\n    \"password\":\"marta\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{origin}}/user/login",
+          "host": ["{{origin}}"],
+          "path": ["user", "login"]
+        }
+      },
+      "response": []
+    }
+  ],
+  "auth": {
+    "type": "bearer"
+  },
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [""]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [""]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "origin",
+      "value": "https://cristian-bermudez-back-final-project.onrender.com",
+      "type": "string"
+    }
+  ]
 }
