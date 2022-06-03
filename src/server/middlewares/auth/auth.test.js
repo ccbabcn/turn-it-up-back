@@ -1,4 +1,5 @@
 const { verify } = require("jsonwebtoken");
+const customError = require("../../../utils/customError/customError");
 const auth = require("./auth");
 
 jest.mock("jsonwebtoken", () => ({
@@ -21,6 +22,22 @@ describe("Given auth middleware function", () => {
 
       expect(next).toHaveBeenCalled();
       expect(req).toHaveProperty("userId", 1);
+    });
+  });
+
+  describe("When it receives a request without Bearer", () => {
+    test("Then it should call next with an error 'Invalid token'", () => {
+      const req = {
+        headers: {
+          authorization: "noBearer",
+        },
+      };
+      const expectedError = customError(401, "Invalid token");
+      const next = jest.fn();
+
+      auth(req, null, next);
+
+      expect(next).toHaveBeenCalledWith(expectedError);
     });
   });
 });
