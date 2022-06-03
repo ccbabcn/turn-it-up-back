@@ -109,4 +109,16 @@ describe("Given UserLogin function", () => {
       expect(next).toHaveBeenCalledWith(newError);
     });
   });
+
+  describe("When it's call and an error occurs", () => {
+    test("Then it should call next with an error", async () => {
+      const req = { body: { mockUser } };
+      const newError = new Error();
+      User.findOne = jest.fn().mockRejectedValueOnce(newError);
+
+      await userLogin(req, res, next);
+
+      expect(next).toHaveBeenCalledWith(newError);
+    });
+  });
 });
