@@ -5,7 +5,7 @@ const jwt = require("jsonwebtoken");
 const customError = require("../../../utils/customError/customError");
 
 const auth = (req, res, next) => {
-  const { authorization } = req.hearders;
+  const { authorization } = req.headers;
   try {
     if (!authorization.includes("Bearer ")) {
       debug(chalk.red("No authorization"));
