@@ -10,6 +10,7 @@ const ProjectSchema = new Schema({
     required: true,
   },
   image: { type: String },
+  genre: [{ type: String, default: [] }],
   roles: [{ type: String, default: [] }],
 });
 
