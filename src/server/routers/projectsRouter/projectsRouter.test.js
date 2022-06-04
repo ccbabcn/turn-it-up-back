@@ -35,16 +35,27 @@ jest.mock("jsonwebtoken", () => ({
   verify: jest.fn(),
 }));
 
-describe("When in recieves a request and the resource it's found on the server", () => {
-  describe("Given a GET 'projects/projects' endpoint", () => {
+describe("Given a GET 'projects/projects' endpoint", () => {
+  describe("When in recieves a request and the resource it's found on the server", () => {
     test("Then it should respond with status 200 and a list of projects", async () => {
       verify.mockImplementation(() => "mockVerifyValue");
+
       Project.find = jest.fn().mockResolvedValueOnce(mockProjects);
       const { body } = await request(app)
         .get("/projects/projects")
-        .set({ authorization: "Bearer mocktoken" });
+        .set({ authorization: "Bearer mocktoken" })
+        .expect(200);
 
       expect(body.projects).toEqual(mockProjects);
+    });
+  });
+
+  describe("When in recieves a request without a proper authorization", () => {
+    test("Then it should respond with status 401", async () => {
+      await request(app)
+        .get("/projects/projects")
+        .set({ authorization: "" })
+        .expect(401);
     });
   });
 });
