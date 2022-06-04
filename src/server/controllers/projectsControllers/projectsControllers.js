@@ -6,7 +6,7 @@ const getProjects = async (req, res, next) => {
   try {
     debug(chalk.green("Games request received"));
     const projects = await Project.find();
-    res.status(200).json(projects);
+    res.status(200).json({ projects });
   } catch (error) {
     debug(chalk.red("Projects not found"));
     error.statusCode = 404;
