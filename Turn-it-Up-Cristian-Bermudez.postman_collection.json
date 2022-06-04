@@ -49,6 +49,29 @@
         }
       },
       "response": []
+    },
+    {
+      "name": "Get projects",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1hcnRhIiwiaWQiOiI2Mjk0Zjc2YzhlNTAzMGFkMmFmMjliOWEiLCJpYXQiOjE2NTQzNDEwNjV9.qbUK6NG5cp9Yf1SeHBvmUOuTBwKE6pztEh_XTLCi4hs",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{origin}}/projects/projects",
+          "host": ["{{origin}}"],
+          "path": ["projects", "projects"]
+        }
+      },
+      "response": []
     }
   ],
   "auth": {
