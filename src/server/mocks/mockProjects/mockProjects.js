@@ -6,7 +6,7 @@ const mockProjects = [
       "Concert for the opening of a new Ron store at Ohio city center",
     image:
       "https://offloadmedia.feverup.com/madridsecreto.co/wp-content/uploads/2019/04/08105701/Madrid-Secreto-Legendario-Tempo-4-1024x683.jpg",
-    genre: ["rock"],
+    genres: ["rock"],
     roles: ["drummer", "guitarrist", "bass player", "singer", "keyboard"],
   },
   {
@@ -15,7 +15,7 @@ const mockProjects = [
     description: "Last concert of Blass a famous blues guitarrist",
     image:
       "https://offloadmedia.feverup.com/madridsecreto.co/wp-content/uploads/2019/04/08105701/Madrid-Secreto-Legendario-Tempo-4-1024x683.jpg",
-    genre: ["blues"],
+    genres: ["blues"],
     roles: ["drummer", "guitarrist", "bass player", "singer"],
   },
 ];
@@ -26,7 +26,7 @@ const mockProject = {
   description: "Concert for the opening of a new Ron store at Ohio city center",
   image:
     "https://offloadmedia.feverup.com/madridsecreto.co/wp-content/uploads/2019/04/08105701/Madrid-Secreto-Legendario-Tempo-4-1024x683.jpg",
-  genre: ["rock"],
+  genres: ["rock"],
   roles: ["drummer", "guitarrist", "bass player", "singer", "keyboard"],
 };
 
