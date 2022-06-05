@@ -2,7 +2,7 @@ require("dotenv").config();
 const { MongoMemoryServer } = require("mongodb-memory-server");
 const mongoose = require("mongoose");
 const request = require("supertest");
-const jsonwebtoken = require("jsonwebtoken");
+const jwt = require("jsonwebtoken");
 const app = require("../../index");
 const connectDatabase = require("../../../database");
 
@@ -32,7 +32,7 @@ afterAll(async () => {
 describe("Given a POST 'user/login' endpoint", () => {
   describe("When it receives a request with valid username and password", () => {
     test("Then it should respond with status 200 and a token", async () => {
-      jsonwebtoken.sign = jest.fn().mockReturnValue("toquencito");
+      jwt.sign = jest.fn().mockReturnValue("toquencito");
       const usertoLog = {
         username: newMockUser.username,
         password: newMockUser.password,

@@ -1,7 +1,7 @@
 const bcrypt = require("bcrypt");
 const debug = require("debug")("turnitup:server:userControllers");
 const chalk = require("chalk");
-const jsonwebtoken = require("jsonwebtoken");
+const jwt = require("jsonwebtoken");
 const User = require("../../../database/models/User");
 const customError = require("../../../utils/customError/customError");
 
@@ -54,7 +54,7 @@ const userLogin = async (req, res, next) => {
           id: user.id,
         };
 
-        const token = jsonwebtoken.sign(userData, process.env.JWT_SECRET);
+        const token = jwt.sign(userData, process.env.JWT_SECRET);
         res.status(200).json({ token });
       } else {
         const error = new Error();
