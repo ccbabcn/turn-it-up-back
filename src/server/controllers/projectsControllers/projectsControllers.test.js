@@ -1,6 +1,6 @@
 const Project = require("../../../database/models/Project");
 const { mockProjects } = require("../../mocks/mockProjects/mockProjects");
-const { getProjects } = require("./projectsControllers");
+const { getProjects, deleteProject } = require("./projectsControllers");
 
 describe("Given getProjects function", () => {
   const res = {
@@ -28,6 +28,41 @@ describe("Given getProjects function", () => {
       await getProjects(null, res, next);
 
       expect(next).toHaveBeenCalledWith(expectedError);
+    });
+  });
+});
+
+describe("Given deleteProject function", () => {
+  describe("When it's invoqued with a response and a request with an existing id to delete", () => {
+    test("Then it should call the response's status method with 200 and the json method with a 'Project deleted' message", async () => {
+      const res = {
+        status: jest.fn().mockReturnThis(),
+        json: jest.fn(),
+      };
+      const req = { params: { projectId: "mockProjectId" } };
+
+      Project.findByIdAndDelete = jest.fn();
+
+      await deleteProject(req, res, null);
+
+      expect(res.status).toHaveBeenCalledWith(200);
+      expect(res.json).toHaveBeenCalledWith({ msg: "Project deleted" });
+    });
+  });
+  describe("When it's invoqued and an error occurs", () => {
+    test("Then it should call next with an error", async () => {
+      const next = jest.fn();
+
+      const req = { params: { projectId: "mockProjectId" } };
+
+      Project.findByIdAndDelete = jest.fn().mockRejectedValueOnce(new Error());
+      const newError = new Error();
+      newError.statusCode = 404;
+      newError.message = "Unable to delete project";
+
+      await deleteProject(req, null, next);
+
+      expect(next).toHaveBeenCalledWith(newError);
     });
   });
 });
