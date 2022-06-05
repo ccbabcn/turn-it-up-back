@@ -35,14 +35,14 @@ jest.mock("jsonwebtoken", () => ({
   verify: jest.fn(),
 }));
 
-describe("Given a GET 'projects/projects' endpoint", () => {
+describe("Given a GET '/projects' endpoint", () => {
   describe("When in recieves a request and the resource it's found on the server", () => {
     test("Then it should respond with status 200 and a list of projects", async () => {
       verify.mockImplementation(() => "mockVerifyValue");
 
       Project.find = jest.fn().mockResolvedValueOnce(mockProjects);
       const { body } = await request(app)
-        .get("/projects/projects")
+        .get("/projects")
         .set({ authorization: "Bearer mocktoken" })
         .expect(200);
 
@@ -53,9 +53,41 @@ describe("Given a GET 'projects/projects' endpoint", () => {
   describe("When in recieves a request without a proper authorization", () => {
     test("Then it should respond with status 401", async () => {
       await request(app)
-        .get("/projects/projects")
+        .get("/projects")
         .set({ authorization: "" })
         .expect(401);
+    });
+  });
+});
+
+describe("Given a DELETE '/projects/:id' endpoint", () => {
+  describe("When in recieves a request with an Id and the resource it's found on the server", () => {
+    test("Then it should respond with status 200 and a json with a msg 'Project deleted'", async () => {
+      verify.mockImplementation(() => "mockVerifyValue");
+      const expectedJson = { msg: "Project deleted" };
+
+      Project.findByIdAndDelete = jest.fn().mockResolvedValueOnce({});
+      const { body } = await request(app)
+        .delete("/projects/mockprojectId")
+        .set({ authorization: "Bearer mocktoken" })
+        .expect(200);
+
+      expect(body).toEqual(expectedJson);
+    });
+  });
+  describe("When in recieves a request without a projectId", () => {
+    test("Then it should respond with status 404", async () => {
+      verify.mockImplementation(() => "mockVerifyValue");
+      const expectedJson = { message: "Unable to delete project" };
+
+      Project.findByIdAndDelete = jest.fn().mockResolvedValueOnce();
+
+      const { body } = await request(app)
+        .delete("/projects/mockUnexistingProjectId")
+        .set({ authorization: "Bearer mocktoken" })
+        .expect(404);
+
+      expect(body).toEqual(expectedJson);
     });
   });
 });

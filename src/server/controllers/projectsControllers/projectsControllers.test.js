@@ -41,7 +41,7 @@ describe("Given deleteProject function", () => {
       };
       const req = { params: { projectId: "mockProjectId" } };
 
-      Project.findByIdAndDelete = jest.fn();
+      Project.findByIdAndDelete = jest.fn().mockResolvedValueOnce({});
 
       await deleteProject(req, res, null);
 
@@ -49,16 +49,33 @@ describe("Given deleteProject function", () => {
       expect(res.json).toHaveBeenCalledWith({ msg: "Project deleted" });
     });
   });
-  describe("When it's invoqued and an error occurs", () => {
-    test("Then it should call next with an error", async () => {
+  describe("When it's invoqued but no project it's found", () => {
+    test("Then it should call next with an 404 error", async () => {
+      const next = jest.fn();
+
+      const req = { params: { projectId: "mockProjectId" } };
+
+      Project.findByIdAndDelete = jest.fn().mockResolvedValueOnce();
+      const newError = new Error();
+      newError.statusCode = 404;
+      newError.customMessage = "Unable to delete project";
+
+      await deleteProject(req, null, next);
+
+      expect(next).toHaveBeenCalledWith(newError);
+    });
+  });
+
+  describe("When it's invoqued an a error occur", () => {
+    test("Then it should call next with an 500 error", async () => {
       const next = jest.fn();
 
       const req = { params: { projectId: "mockProjectId" } };
 
       Project.findByIdAndDelete = jest.fn().mockRejectedValueOnce(new Error());
       const newError = new Error();
-      newError.statusCode = 404;
-      newError.message = "Unable to delete project";
+      newError.statusCode = 500;
+      newError.customMessage = "Internal Server Error";
 
       await deleteProject(req, null, next);
 
