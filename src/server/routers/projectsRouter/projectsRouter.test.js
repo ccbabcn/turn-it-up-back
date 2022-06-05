@@ -66,11 +66,26 @@ describe("Given a DELETE '/projects/:id' endpoint", () => {
       verify.mockImplementation(() => "mockVerifyValue");
       const expectedJson = { msg: "Project deleted" };
 
-      Project.findByIdAndDelete = jest.fn().mockResolvedValueOnce();
+      Project.findByIdAndDelete = jest.fn().mockResolvedValueOnce({});
       const { body } = await request(app)
         .delete("/projects/mockprojectId")
         .set({ authorization: "Bearer mocktoken" })
         .expect(200);
+
+      expect(body).toEqual(expectedJson);
+    });
+  });
+  describe("When in recieves a request without a projectId", () => {
+    test("Then it should respond with status 404", async () => {
+      verify.mockImplementation(() => "mockVerifyValue");
+      const expectedJson = { message: "Unable to delete project" };
+
+      Project.findByIdAndDelete = jest.fn().mockResolvedValueOnce();
+
+      const { body } = await request(app)
+        .delete("/projects/mockUnexistingProjectId")
+        .set({ authorization: "Bearer mocktoken" })
+        .expect(404);
 
       expect(body).toEqual(expectedJson);
     });
