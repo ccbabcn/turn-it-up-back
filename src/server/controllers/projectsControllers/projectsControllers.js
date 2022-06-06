@@ -77,9 +77,9 @@ const createProject = async (req, res, next) => {
     res.status(201).json({ project: createdProject });
     debug(chalk.green("Project created correctly"));
   } catch (error) {
-    debug(chalk.red("Error creating project"));
     error.statusCode = 400;
     error.customMessage = "cannot created project";
+    debug(chalk.red("Error creating project"));
     next(error);
   }
 };
