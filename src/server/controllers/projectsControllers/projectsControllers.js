@@ -74,7 +74,6 @@ const createProject = async (req, res, next) => {
         },
       }
     );
-
     res.status(201).json({ project: createdProject });
     debug(chalk.green("Project created correctly"));
   } catch (error) {
