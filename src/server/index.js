@@ -10,6 +10,7 @@ const {
 } = require("./middlewares/errors/errors");
 const userRouter = require("./routers/userRouter/userRouter");
 const projectsRouter = require("./routers/projectsRouter/projectsRouter");
+const auth = require("./middlewares/auth/auth");
 
 const app = express();
 
@@ -19,7 +20,7 @@ app.use(morgan("dev"));
 app.use(express.json());
 
 app.use("/user", userRouter);
-app.use("/projects", projectsRouter);
+app.use("/projects", auth, projectsRouter);
 
 app.use(notFoundError);
 app.use(validationError);

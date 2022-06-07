@@ -1,6 +1,14 @@
 const Project = require("../../../database/models/Project");
-const { mockProjects } = require("../../mocks/mockProjects/mockProjects");
-const { getProjects, deleteProject } = require("./projectsControllers");
+const User = require("../../../database/models/User");
+const {
+  mockProjects,
+  mockProject,
+} = require("../../mocks/mockProjects/mockProjects");
+const {
+  getProjects,
+  deleteProject,
+  createProject,
+} = require("./projectsControllers");
 
 describe("Given getProjects function", () => {
   const res = {
@@ -80,6 +88,60 @@ describe("Given deleteProject function", () => {
       await deleteProject(req, null, next);
 
       expect(next).toHaveBeenCalledWith(newError);
+    });
+  });
+});
+
+describe("Given createProject function", () => {
+  const next = jest.fn();
+
+  describe("When it's invoqued with a request that has a new project", () => {
+    test("Then it should call the response's status method with 201 and the json method with the created project", async () => {
+      const res = {
+        status: jest.fn().mockReturnThis(),
+        json: jest.fn(),
+      };
+
+      const req = {
+        body: mockProject,
+        file: {
+          filename: "mockimagename",
+          originalname: "mockimage.jpg",
+        },
+        userId: "mockid",
+      };
+
+      Project.create = jest.fn().mockResolvedValueOnce(mockProject);
+      User.findOneAndUpdate = jest.fn().mockResolvedValueOnce(true);
+
+      await createProject(req, res, next);
+
+      expect(res.status).toHaveBeenCalledWith(201);
+      expect(res.json).toHaveBeenCalledWith({ project: mockProject });
+    });
+  });
+
+  describe("When it's invoqued with a request that has a new project and a file but fails on renaming it's name", () => {
+    test("Then it should call next", async () => {
+      const res = {
+        status: jest.fn().mockReturnThis(),
+        json: jest.fn(),
+      };
+
+      jest.mock("fs", () => ({
+        ...jest.requireActual("fs"),
+        rename: jest.fn().mockRejectedValueOnce(-1),
+      }));
+
+      const req = {
+        body: mockProject,
+        file: {},
+        userId: "mockid",
+      };
+
+      await createProject(req, res, next);
+
+      expect(next).toHaveBeenCalled();
     });
   });
 });

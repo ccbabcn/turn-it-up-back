@@ -1,7 +1,10 @@
 const debug = require("debug")("turnitup:server:projectsControllers");
 const chalk = require("chalk");
+const path = require("path");
+const fs = require("fs");
 const Project = require("../../../database/models/Project");
 const customError = require("../../../utils/customError/customError");
+const User = require("../../../database/models/User");
 
 const getProjects = async (req, res, next) => {
   try {
@@ -35,4 +38,51 @@ const deleteProject = async (req, res, next) => {
     next(error);
   }
 };
-module.exports = { getProjects, deleteProject };
+
+const createProject = async (req, res, next) => {
+  try {
+    const { name, description, genres, roles } = req.body;
+    const { userId } = req;
+    const newProject = {
+      name,
+      description,
+      genres,
+      roles,
+    };
+
+    const { file } = req;
+    if (file) {
+      const newFileName = `${Date.now()}-${file.originalname}`;
+      fs.rename(
+        path.join("uploads", "images", file.filename),
+        path.join("uploads", "images", newFileName),
+        (error) => {
+          if (error) {
+            debug(chalk.red("Error renaming image of project"));
+            next(error);
+          }
+        }
+      );
+      newProject.image = newFileName;
+    }
+    const createdProject = await Project.create(newProject);
+    await User.findOneAndUpdate(
+      { userId },
+      {
+        $push: {
+          createdprojects: createdProject.id,
+        },
+      }
+    );
+    res.status(201).json({ project: createdProject });
+    debug(chalk.green("Project created correctly"));
+  } catch (error) {
+    error.customMessage = "cannot created project";
+    error.statusCode = 400;
+    debug(chalk.red("Error creating project"));
+
+    next(error);
+  }
+};
+
+module.exports = { getProjects, deleteProject, createProject };

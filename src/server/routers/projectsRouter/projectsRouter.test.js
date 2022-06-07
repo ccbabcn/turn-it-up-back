@@ -7,7 +7,11 @@ const app = require("../../index");
 const connectDatabase = require("../../../database");
 
 const Project = require("../../../database/models/Project");
-const { mockProjects } = require("../../mocks/mockProjects/mockProjects");
+const {
+  mockProjects,
+  mockProject,
+} = require("../../mocks/mockProjects/mockProjects");
+const User = require("../../../database/models/User");
 
 let mongoServer;
 
@@ -75,6 +79,7 @@ describe("Given a DELETE '/projects/:id' endpoint", () => {
       expect(body).toEqual(expectedJson);
     });
   });
+
   describe("When in recieves a request without a projectId", () => {
     test("Then it should respond with status 404", async () => {
       verify.mockImplementation(() => "mockVerifyValue");
@@ -86,6 +91,40 @@ describe("Given a DELETE '/projects/:id' endpoint", () => {
         .delete("/projects/mockUnexistingProjectId")
         .set({ authorization: "Bearer mocktoken" })
         .expect(404);
+
+      expect(body).toEqual(expectedJson);
+    });
+  });
+});
+
+describe("Given a POST '/create/ endpoint", () => {
+  describe("When in recieves a request with a project from a valid user", () => {
+    test("Then it should respond with status 201 and a json with the project", async () => {
+      verify.mockImplementation(() => "mockVerifyValue");
+      const expectedJson = { project: mockProject };
+
+      Project.create = jest.fn().mockResolvedValueOnce(mockProject);
+      User.findOneAndUpdate = jest.fn().mockResolvedValueOnce(true);
+      const { body } = await request(app)
+        .post("/projects/create")
+        .set({ authorization: "Bearer mocktoken" })
+        .expect(201);
+
+      expect(body).toEqual(expectedJson);
+    });
+  });
+
+  describe("When in recieves a bad request from a valid user", () => {
+    test("Then it should respond with status 400 and a json with the message 'cannot created project'", async () => {
+      verify.mockImplementation(() => "mockVerifyValue");
+      const expectedJson = { message: "cannot created project" };
+
+      Project.create = jest.fn().mockRejectedValueOnce(new Error());
+      User.findOneAndUpdate = jest.fn().mockResolvedValueOnce(true);
+      const { body } = await request(app)
+        .post("/projects/create")
+        .set({ authorization: "Bearer mocktoken" })
+        .expect(400);
 
       expect(body).toEqual(expectedJson);
     });
