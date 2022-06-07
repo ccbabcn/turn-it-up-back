@@ -93,6 +93,8 @@ describe("Given deleteProject function", () => {
 });
 
 describe("Given createProject function", () => {
+  const next = jest.fn();
+
   describe("When it's invoqued with a request that has a new project", () => {
     test("Then it should call the response's status method with 201 and the json method with the created project", async () => {
       const res = {
@@ -112,7 +114,7 @@ describe("Given createProject function", () => {
       Project.create = jest.fn().mockResolvedValueOnce(mockProject);
       User.findOneAndUpdate = jest.fn().mockResolvedValueOnce(true);
 
-      await createProject(req, res, null);
+      await createProject(req, res, next);
 
       expect(res.status).toHaveBeenCalledWith(201);
       expect(res.json).toHaveBeenCalledWith({ project: mockProject });
@@ -125,7 +127,6 @@ describe("Given createProject function", () => {
         status: jest.fn().mockReturnThis(),
         json: jest.fn(),
       };
-      const next = jest.fn();
 
       jest.mock("fs", () => ({
         ...jest.requireActual("fs"),

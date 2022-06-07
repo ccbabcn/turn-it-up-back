@@ -40,9 +40,9 @@ const deleteProject = async (req, res, next) => {
 };
 
 const createProject = async (req, res, next) => {
-  const { name, description, genres, roles } = req.body;
-  const { userId } = req;
   try {
+    const { name, description, genres, roles } = req.body;
+    const { userId } = req;
     const newProject = {
       name,
       description,
@@ -77,9 +77,10 @@ const createProject = async (req, res, next) => {
     res.status(201).json({ project: createdProject });
     debug(chalk.green("Project created correctly"));
   } catch (error) {
-    error.statusCode = 400;
     error.customMessage = "cannot created project";
+    error.statusCode = 400;
     debug(chalk.red("Error creating project"));
+
     next(error);
   }
 };
