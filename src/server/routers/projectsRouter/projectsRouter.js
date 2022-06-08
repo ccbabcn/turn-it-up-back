@@ -8,7 +8,12 @@ const {
   createProject,
 } = require("../../controllers/projectsControllers/projectsControllers");
 
-const upload = multer({ dest: path.join("uploads", "images") });
+const upload = multer({
+  dest: path.join("uploads", "images"),
+  limits: {
+    fileSize: 9500000,
+  },
+});
 
 const projectsRouter = express.Router();
 
