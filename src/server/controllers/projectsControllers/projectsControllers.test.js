@@ -103,7 +103,7 @@ describe("Given createProject function", () => {
       };
 
       const req = {
-        body: mockProject,
+        body: { newProject: mockProject },
         file: {
           filename: "mockimagename",
           originalname: "mockimage.jpg",

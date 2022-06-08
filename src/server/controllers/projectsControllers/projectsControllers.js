@@ -41,14 +41,8 @@ const deleteProject = async (req, res, next) => {
 
 const createProject = async (req, res, next) => {
   try {
-    const { name, description, genres, roles } = req.body;
+    const newProject = req.body;
     const { userId } = req;
-    const newProject = {
-      name,
-      description,
-      genres,
-      roles,
-    };
 
     const { file } = req;
     if (file) {
