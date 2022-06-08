@@ -1,4 +1,4 @@
-const { Schema, model } = require("mongoose");
+const { Schema, model, SchemaTypes } = require("mongoose");
 
 const ProjectSchema = new Schema({
   name: {
@@ -12,6 +12,7 @@ const ProjectSchema = new Schema({
   image: { type: String },
   genres: [{ type: String, default: [] }],
   roles: [{ type: String, default: [] }],
+  owner: { type: SchemaTypes.ObjectId, ref: "User" },
 });
 
 const Project = model("Project", ProjectSchema, "projects");
