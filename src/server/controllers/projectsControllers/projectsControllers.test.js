@@ -8,6 +8,7 @@ const {
   getProjects,
   deleteProject,
   createProject,
+  getProjectsbyUser,
 } = require("./projectsControllers");
 
 describe("Given getProjects function", () => {
@@ -47,9 +48,10 @@ describe("Given deleteProject function", () => {
         status: jest.fn().mockReturnThis(),
         json: jest.fn(),
       };
-      const req = { params: { projectId: "mockProjectId" } };
+      const req = { params: { projectId: "mockProjectId" }, userId: "userId" };
 
       Project.findByIdAndDelete = jest.fn().mockResolvedValueOnce({});
+      User.findOneAndUpdate = jest.fn().mockResolvedValueOnce(mockProject);
 
       await deleteProject(req, res, null);
 
@@ -142,6 +144,82 @@ describe("Given createProject function", () => {
       await createProject(req, res, next);
 
       expect(next).toHaveBeenCalled();
+    });
+  });
+
+  describe("When it's invoqued with a request that has a new project and a file but fails on renaming it's name", () => {
+    test("Then it should call next", async () => {
+      const res = {
+        status: jest.fn().mockReturnThis(),
+        json: jest.fn(),
+      };
+
+      jest.mock("fs", () => ({
+        ...jest.requireActual("fs"),
+        rename: jest.fn().mockRejectedValueOnce(-1),
+      }));
+
+      const req = {
+        body: mockProject,
+        file: {},
+        userId: "mockid",
+      };
+
+      await createProject(req, res, next);
+
+      expect(next).toHaveBeenCalled();
+    });
+  });
+});
+
+describe("Given getProjectsbyUser function", () => {
+  const next = jest.fn();
+
+  describe("When it's invoqued with a request that has a existing userID", () => {
+    test("Then it should call the response's status method with 200 and the json method with the list of projects from that user", async () => {
+      const res = {
+        status: jest.fn().mockReturnThis(),
+        json: jest.fn(),
+      };
+
+      const req = {
+        params: {
+          userId: "mockid",
+        },
+      };
+
+      User.findOne = jest.fn(() => ({
+        populate: jest.fn().mockReturnValue(mockProject),
+      }));
+
+      await getProjectsbyUser(req, res, next);
+
+      expect(res.status).toHaveBeenCalledWith(200);
+      expect(res.json).toHaveBeenCalledWith({ userProjects: mockProject });
+    });
+  });
+
+  describe("When it's invoqued with a wrong request", () => {
+    test("Then it should call next with an error", async () => {
+      const res = {
+        status: jest.fn().mockReturnThis(),
+        json: jest.fn(),
+      };
+
+      const req = {
+        userId: "mockid",
+      };
+      const newError = new Error();
+      newError.statusCode = 404;
+      newError.message = "Not found";
+
+      User.findOne = jest.fn(() => ({
+        populate: jest.fn().mockRejectedValueOnce(new Error()),
+      }));
+
+      await getProjectsbyUser(req, res, next);
+
+      expect(next).toHaveBeenCalledWith(newError);
     });
   });
 });

@@ -14,7 +14,7 @@ Api para leer, crear, modificar y borrar proyectos de una base de datos de proye
 ### Proyectos
 
 - `Información de todos los proyectos`  
-  (GET) /projects/projects
+  (GET) /projects
 - `Eliminar un proyecto`  
   (DELETE) /projects/project/:id
 - `Informacion de un projecto`  

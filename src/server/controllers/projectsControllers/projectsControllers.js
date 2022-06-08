@@ -20,12 +20,41 @@ const getProjects = async (req, res, next) => {
   }
 };
 
+const getProjectsbyUser = async (req, res, next) => {
+  try {
+    const { userId } = req;
+    debug(chalk.yellow(`Get projects from ${userId} request received`));
+    const userProjects = await User.findOne({ _id: userId }).populate(
+      "createdprojects",
+      null,
+      Project
+    );
+    debug(chalk.green(`Get projects from ${userId} request completed`));
+
+    res.status(200).json({ userProjects });
+  } catch (error) {
+    debug(chalk.red("Projects from the user not found"));
+    error.statusCode = 404;
+    error.message = "Not found";
+
+    next(error);
+  }
+};
+
 const deleteProject = async (req, res, next) => {
   const { id } = req.params;
+  const { userId } = req;
 
   try {
     debug(chalk.green("Project delete request received"));
     const deletedProject = await Project.findByIdAndDelete(id);
+    await User.findOneAndUpdate(
+      { _id: userId },
+      {
+        $pull: { createdprojects: id },
+      }
+    );
+
     if (deletedProject) {
       res.status(200).json({ msg: "Project deleted" });
     } else {
@@ -79,4 +108,9 @@ const createProject = async (req, res, next) => {
   }
 };
 
-module.exports = { getProjects, deleteProject, createProject };
+module.exports = {
+  getProjects,
+  deleteProject,
+  createProject,
+  getProjectsbyUser,
+};
