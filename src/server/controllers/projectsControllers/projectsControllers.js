@@ -61,7 +61,7 @@ const createProject = async (req, res, next) => {
     }
     const createdProject = await Project.create(newProject);
     await User.findOneAndUpdate(
-      { userId },
+      { _id: userId },
       {
         $push: {
           createdprojects: createdProject.id,
