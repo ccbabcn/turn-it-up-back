@@ -11,7 +11,7 @@ const {
 const upload = multer({
   dest: path.join("uploads", "images"),
   limits: {
-    fileSize: 9500000,
+    fileSize: 5000000,
   },
 });
 
