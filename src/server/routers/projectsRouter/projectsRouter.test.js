@@ -65,12 +65,14 @@ describe("Given a GET '/projects' endpoint", () => {
 });
 
 describe("Given a DELETE '/projects/:id' endpoint", () => {
-  describe("When in recieves a request with an Id and the resource it's found on the server", () => {
+  describe("When in recieves a request with a project Id and the resource it's found on the server", () => {
     test("Then it should respond with status 200 and a json with a msg 'Project deleted'", async () => {
       verify.mockImplementation(() => "mockVerifyValue");
       const expectedJson = { msg: "Project deleted" };
 
       Project.findByIdAndDelete = jest.fn().mockResolvedValueOnce({});
+      User.findOneAndUpdate = jest.fn().mockResolvedValueOnce({});
+
       const { body } = await request(app)
         .delete("/projects/mockprojectId")
         .set({ authorization: "Bearer mocktoken" })
