@@ -108,23 +108,16 @@ describe("Given a POST '/create/ endpoint", () => {
       const { body } = await request(app)
         .post("/projects/create")
         .set({ authorization: "Bearer mocktoken" })
+        .type("multipart/formd-ata")
+        .field("name", "mockNewProjectName")
+        .field("description", "mockNewProjectDescription")
+        .field("genres", ["rock", "bassplayer"])
+        .field("roles", ["guitarrist", "singer"])
+        .attach("image", Buffer.from("mockImageString", "utf-8"), {
+          filename: "mockiamge",
+          originalname: "image.jpg",
+        })
         .expect(201);
-
-      expect(body).toEqual(expectedJson);
-    });
-  });
-
-  describe("When in recieves a bad request from a valid user", () => {
-    test("Then it should respond with status 400 and a json with the message 'cannot created project'", async () => {
-      verify.mockImplementation(() => "mockVerifyValue");
-      const expectedJson = { message: "cannot created project" };
-
-      Project.create = jest.fn().mockRejectedValueOnce(new Error());
-      User.findOneAndUpdate = jest.fn().mockResolvedValueOnce(true);
-      const { body } = await request(app)
-        .post("/projects/create")
-        .set({ authorization: "Bearer mocktoken" })
-        .expect(400);
 
       expect(body).toEqual(expectedJson);
     });

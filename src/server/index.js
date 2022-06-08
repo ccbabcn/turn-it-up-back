@@ -16,14 +16,14 @@ const app = express();
 
 app.disable("x-powered-by");
 app.use(cors(corsOptions));
+app.use(morgan("dev"));
+app.use("/uploads", express.static("uploads"));
+app.use(express.json());
 app.use(
   helmet({
     crossOriginResourcePolicy: false,
   })
 );
-app.use(morgan("dev"));
-app.use("/uploads", express.static("uploads"));
-app.use(express.json());
 
 app.use("/user", userRouter);
 app.use("/projects", auth, projectsRouter);
