@@ -8,7 +8,6 @@ const mockProjects = [
       "https://offloadmedia.feverup.com/madridsecreto.co/wp-content/uploads/2019/04/08105701/Madrid-Secreto-Legendario-Tempo-4-1024x683.jpg",
     genres: ["rock"],
     roles: ["drummer", "guitarrist", "bass player", "singer", "keyboard"],
-    owner: "marta",
   },
   {
     id: "629b4b59703ff9261686d9d2",
@@ -18,7 +17,6 @@ const mockProjects = [
       "https://offloadmedia.feverup.com/madridsecreto.co/wp-content/uploads/2019/04/08105701/Madrid-Secreto-Legendario-Tempo-4-1024x683.jpg",
     genres: ["blues"],
     roles: ["drummer", "guitarrist", "bass player", "singer"],
-    owner: "marta",
   },
 ];
 
@@ -30,7 +28,6 @@ const mockProject = {
     "https://offloadmedia.feverup.com/madridsecreto.co/wp-content/uploads/2019/04/08105701/Madrid-Secreto-Legendario-Tempo-4-1024x683.jpg",
   genres: ["rock"],
   roles: ["drummer", "guitarrist", "bass player", "singer", "keyboard"],
-  owner: "marta",
 };
 
 module.exports = { mockProject, mockProjects };
