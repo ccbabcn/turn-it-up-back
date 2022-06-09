@@ -108,9 +108,53 @@ const createProject = async (req, res, next) => {
   }
 };
 
+const editProject = async (req, res, next) => {
+  debug(chalk.yellow("received a request to edit project"));
+  try {
+    const projectToEdit = req.body;
+    const { id: projectId } = req.params;
+    const { file } = req;
+    const { userId } = req;
+
+    if (file) {
+      const newFileName = `${Date.now()}-${file.originalname}`;
+      fs.rename(
+        path.join("uploads", "images", file.filename),
+        path.join("uploads", "images", newFileName),
+        (error) => {
+          if (error) {
+            debug(chalk.red("Error editing project"));
+            next(error);
+          }
+        }
+      );
+      projectToEdit.image = newFileName;
+    }
+    const owner = await User.findById({ _id: userId });
+    if (owner.createdprojects.includes(projectId)) {
+      await Project.findByIdAndUpdate({ _id: projectId }, projectToEdit, {
+        new: true,
+      });
+      res.status(200).json({ msg: "Project edited" });
+    } else {
+      const error = customError(401, "Unauthorized");
+      debug(chalk.red(`${userId} tried to uptade another's user project`));
+
+      next(error);
+    }
+  } catch (error) {
+    error.customMessage = "cannot edit project";
+    error.statusCode = 400;
+    debug(chalk.red("Error Editing project"));
+
+    next(error);
+  }
+};
+
 module.exports = {
   getProjects,
   deleteProject,
   createProject,
   getProjectsbyUser,
+  editProject,
 };

@@ -7,6 +7,7 @@ const {
   deleteProject,
   createProject,
   getProjectsbyUser,
+  editProject,
 } = require("../../controllers/projectsControllers/projectsControllers");
 
 const upload = multer({
@@ -22,5 +23,6 @@ projectsRouter.get("/", getProjects);
 projectsRouter.get("/user", getProjectsbyUser);
 projectsRouter.delete("/:id", deleteProject);
 projectsRouter.post("/create", upload.single("image"), createProject);
+projectsRouter.put("/:id", upload.single("image"), editProject);
 
 module.exports = projectsRouter;

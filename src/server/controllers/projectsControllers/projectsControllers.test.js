@@ -9,6 +9,7 @@ const {
   deleteProject,
   createProject,
   getProjectsbyUser,
+  editProject,
 } = require("./projectsControllers");
 
 describe("Given getProjects function", () => {
@@ -220,6 +221,86 @@ describe("Given getProjectsbyUser function", () => {
       await getProjectsbyUser(req, res, next);
 
       expect(next).toHaveBeenCalledWith(newError);
+    });
+  });
+});
+
+describe("Given editProject function", () => {
+  const next = jest.fn();
+
+  describe("When it's invoqued with a request to update a file from it's user creator", () => {
+    test("Then it should call the response's status method with 200 and the json method with the message 'Project edited'", async () => {
+      const res = {
+        status: jest.fn().mockReturnThis(),
+        json: jest.fn(),
+      };
+
+      const req = {
+        body: mockProject,
+        params: { id: mockProject.id },
+        userId: mockProject.owner,
+      };
+
+      User.findById = jest
+        .fn()
+        .mockResolvedValueOnce({ createdprojects: [mockProject.id] });
+      Project.findByIdAndUpdate = jest.fn().mockResolvedValueOnce(true);
+
+      await editProject(req, res, next);
+
+      expect(res.status).toHaveBeenCalledWith(200);
+      expect(res.json).toHaveBeenCalledWith({ msg: "Project edited" });
+    });
+  });
+
+  describe("When it's invoqued with a request to update a file from another user", () => {
+    test("Then it should call the next with 401 and a message 'Unauthorized'", async () => {
+      const res = {
+        status: jest.fn().mockReturnThis(),
+        json: jest.fn(),
+      };
+
+      const req = {
+        body: mockProject,
+        params: { id: mockProject.id },
+        userId: "mockNotOwner",
+      };
+      const expectedError = new Error();
+      expectedError.customMessage = "Unauthorized";
+      expectedError.statusCode = 401;
+
+      User.findById = jest
+        .fn()
+        .mockResolvedValueOnce({ createdprojects: req.userId });
+      Project.findByIdAndUpdate = jest.fn().mockResolvedValueOnce(true);
+
+      await editProject(req, res, next);
+
+      expect(next).toHaveBeenCalledWith(expectedError);
+    });
+  });
+
+  describe("When it's invoqued with a bad request to update a file", () => {
+    test("Then it should call the next with 400 and a message 'cannot edit project'", async () => {
+      const res = {
+        status: jest.fn().mockReturnThis(),
+        json: jest.fn(),
+      };
+
+      const req = {
+        body: mockProject,
+        params: { id: mockProject.id },
+        userId: "mockNotOwner",
+      };
+      const expectedError = new Error();
+      expectedError.customMessage = "cannot edit project";
+      expectedError.statusCode = 400;
+
+      User.findById = jest.fn().mockRejectedValueOnce(new Error());
+
+      await editProject(req, res, next);
+
+      expect(next).toHaveBeenCalledWith(expectedError);
     });
   });
 });
