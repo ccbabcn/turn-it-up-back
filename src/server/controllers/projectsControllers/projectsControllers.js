@@ -69,9 +69,16 @@ const deleteProject = async (req, res, next) => {
 };
 
 const createProject = async (req, res, next) => {
+  const { userId } = req;
   try {
-    const newProject = req.body;
-    const { userId } = req;
+    const recieveProject = req.body;
+    const newProject = {
+      name: recieveProject.name,
+      description: recieveProject.description,
+      genres: recieveProject.genres,
+      roles: recieveProject.roles,
+      owner: userId,
+    };
 
     const { file } = req;
     if (file) {
@@ -135,6 +142,7 @@ const editProject = async (req, res, next) => {
       await Project.findByIdAndUpdate({ _id: projectId }, projectToEdit, {
         new: true,
       });
+      debug(chalk.green("Project edited correctly "));
       res.status(200).json({ msg: "Project edited" });
     } else {
       const error = customError(401, "Unauthorized");
@@ -151,10 +159,28 @@ const editProject = async (req, res, next) => {
   }
 };
 
+const getProjectById = async (req, res, next) => {
+  debug(chalk.yellow("Get project by Id request received"));
+
+  try {
+    const { id: projectId } = req.params;
+    const project = await Project.findById(projectId);
+    res.status(200).json({ project });
+    debug(chalk.green("Get project by success"));
+  } catch (error) {
+    debug(chalk.red("Projects not found"));
+    error.statusCode = 404;
+    error.message = "Not found";
+
+    next(error);
+  }
+};
+
 module.exports = {
   getProjects,
   deleteProject,
   createProject,
   getProjectsbyUser,
   editProject,
+  getProjectById,
 };
