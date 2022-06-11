@@ -8,6 +8,7 @@ Api para leer, crear, modificar y borrar proyectos de una base de datos de proye
 
 - `Iniciar sesion`  
   (POST) /user/login
+
 - `Registrar usuario`  
   (POST) /user/register
 
@@ -15,13 +16,18 @@ Api para leer, crear, modificar y borrar proyectos de una base de datos de proye
 
 - `Información de todos los proyectos`  
   (GET) /projects
+
+- `Informacion de un projecto`  
+  (GET) /projects/:id
+
+- `Proyectos relacionados a un usuario`  
+  (GET) /projects/user
+
+- `Crear un projecto`  
+  (POST) /projects/create
+
+- `Modificar un proyecto`  
+  (PUT) /projects/:id
+
 - `Eliminar un proyecto`  
   (DELETE) /projects/project/:id
-- `Informacion de un projecto`  
-  (GET) /projects/project/:id
-- `Proyectos relacionados a un usuario`  
-  (GET) /projects/user/:id
-- `Crear un projecto`  
-  (POST) /projects
-- `Modificar un proyecto`  
-  (PUT) /projects/update/:id
