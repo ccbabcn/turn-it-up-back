@@ -1,7 +1,6 @@
 const debug = require("debug")("turnitup:server:projectsControllers");
 const chalk = require("chalk");
-const path = require("path");
-const fs = require("fs");
+
 const Project = require("../../../database/models/Project");
 const customError = require("../../../utils/customError/customError");
 const User = require("../../../database/models/User");
@@ -69,7 +68,7 @@ const deleteProject = async (req, res, next) => {
 };
 
 const createProject = async (req, res, next) => {
-  const { userId } = req;
+  const { userId, image, imagebackup } = req;
   try {
     const recieveProject = req.body;
     const newProject = {
@@ -78,23 +77,10 @@ const createProject = async (req, res, next) => {
       genres: recieveProject.genres,
       roles: recieveProject.roles,
       owner: userId,
+      image,
+      imagebackup,
     };
 
-    const { file } = req;
-    if (file) {
-      const newFileName = `${Date.now()}-${file.originalname}`;
-      fs.rename(
-        path.join("uploads", "images", file.filename),
-        path.join("uploads", "images", newFileName),
-        (error) => {
-          if (error) {
-            debug(chalk.red("Error renaming image of project"));
-            next(error);
-          }
-        }
-      );
-      newProject.image = newFileName;
-    }
     const createdProject = await Project.create(newProject);
     await User.findOneAndUpdate(
       { _id: userId },
@@ -120,23 +106,11 @@ const editProject = async (req, res, next) => {
   try {
     const projectToEdit = req.body;
     const { id: projectId } = req.params;
-    const { file } = req;
-    const { userId } = req;
 
-    if (file) {
-      const newFileName = `${Date.now()}-${file.originalname}`;
-      fs.rename(
-        path.join("uploads", "images", file.filename),
-        path.join("uploads", "images", newFileName),
-        (error) => {
-          if (error) {
-            debug(chalk.red("Error editing project"));
-            next(error);
-          }
-        }
-      );
-      projectToEdit.image = newFileName;
-    }
+    const { userId, image, imagebackup } = req;
+    projectToEdit.image = image;
+    projectToEdit.imagebackup = imagebackup;
+
     const owner = await User.findById({ _id: userId });
     if (owner.createdprojects.includes(projectId)) {
       await Project.findByIdAndUpdate({ _id: projectId }, projectToEdit, {
@@ -161,14 +135,19 @@ const editProject = async (req, res, next) => {
 
 const getProjectById = async (req, res, next) => {
   debug(chalk.yellow("Get project by Id request received"));
-
   try {
     const { id: projectId } = req.params;
+    if (!projectId) {
+      const error = customError(400, "Bad request");
+      debug(chalk.red("Get project by Id, bad request received"));
+
+      next(error);
+    }
     const project = await Project.findById(projectId);
     res.status(200).json({ project });
-    debug(chalk.green("Get project by success"));
+    debug(chalk.green("Get project by ID success"));
   } catch (error) {
-    debug(chalk.red("Projects not found"));
+    debug(chalk.red("Project not found"));
     error.statusCode = 404;
     error.message = "Not found";
 

@@ -10,6 +10,8 @@ const ProjectSchema = new Schema({
     required: true,
   },
   image: { type: String },
+  imagebackup: { type: String },
+
   genres: [{ type: String, default: [] }],
   roles: [{ type: String, default: [] }],
   owner: { type: SchemaTypes.ObjectId, ref: "User" },

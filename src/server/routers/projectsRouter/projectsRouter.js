@@ -10,6 +10,7 @@ const {
   editProject,
   getProjectById,
 } = require("../../controllers/projectsControllers/projectsControllers");
+const firebaseUploads = require("../../middlewares/firebaseUploads/firebaseUploads");
 
 const upload = multer({
   dest: path.join("uploads", "images"),
@@ -25,7 +26,17 @@ projectsRouter.get("/user", getProjectsbyUser);
 projectsRouter.get("/:id", getProjectById);
 
 projectsRouter.delete("/:id", deleteProject);
-projectsRouter.post("/create", upload.single("image"), createProject);
-projectsRouter.put("/:id", upload.single("image"), editProject);
+projectsRouter.post(
+  "/create",
+  upload.single("image"),
+  firebaseUploads,
+  createProject
+);
+projectsRouter.put(
+  "/:id",
+  upload.single("image"),
+  firebaseUploads,
+  editProject
+);
 
 module.exports = projectsRouter;
