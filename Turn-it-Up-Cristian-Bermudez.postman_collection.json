@@ -1,131 +1,347 @@
 {
-  "info": {
-    "_postman_id": "911f2fe1-9814-46b0-9cb2-4b70ab6630ae",
-    "name": "Turn-it-Up-Cristian-Bermudez",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
-  },
-  "item": [
-    {
-      "name": "Register",
-      "request": {
-        "method": "POST",
-        "header": [],
-        "body": {
-          "mode": "raw",
-          "raw": "{ \"name\":\"marta\",\r\n    \"username\":\"marta\", \r\n    \"password\":\"marta\" }",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "{{origin}}/user/register",
-          "host": ["{{origin}}"],
-          "path": ["user", "register"]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "Login",
-      "request": {
-        "method": "POST",
-        "header": [],
-        "body": {
-          "mode": "raw",
-          "raw": "{\r\n    \"username\":\"marta\",\r\n    \"password\":\"marta\"\r\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "{{origin}}/user/login",
-          "host": ["{{origin}}"],
-          "path": ["user", "login"]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "Get projects",
-      "request": {
-        "auth": {
-          "type": "bearer",
-          "bearer": [
-            {
-              "key": "token",
-              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1hcnRhIiwiaWQiOiI2Mjk0Zjc2YzhlNTAzMGFkMmFmMjliOWEiLCJpYXQiOjE2NTQzNDEwNjV9.qbUK6NG5cp9Yf1SeHBvmUOuTBwKE6pztEh_XTLCi4hs",
-              "type": "string"
-            }
-          ]
-        },
-        "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "{{origin}}/projects",
-          "host": ["{{origin}}"],
-          "path": ["projects"]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "DELETE projects",
-      "request": {
-        "auth": {
-          "type": "bearer",
-          "bearer": [
-            {
-              "key": "token",
-              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1hcnRhIiwiaWQiOiI2Mjk0Zjc2YzhlNTAzMGFkMmFmMjliOWEiLCJpYXQiOjE2NTQzNDEwNjV9.qbUK6NG5cp9Yf1SeHBvmUOuTBwKE6pztEh_XTLCi4hs",
-              "type": "string"
-            }
-          ]
-        },
-        "method": "DELETE",
-        "header": [],
-        "url": {
-          "raw": "{{origin}}/projects/:id",
-          "host": ["{{origin}}"],
-          "path": ["projects", ":id"],
-          "variable": [
-            {
-              "key": "id",
-              "value": null
-            }
-          ]
-        }
-      },
-      "response": []
-    }
-  ],
-  "auth": {
-    "type": "bearer"
-  },
-  "event": [
-    {
-      "listen": "prerequest",
-      "script": {
-        "type": "text/javascript",
-        "exec": [""]
-      }
-    },
-    {
-      "listen": "test",
-      "script": {
-        "type": "text/javascript",
-        "exec": [""]
-      }
-    }
-  ],
-  "variable": [
-    {
-      "key": "origin",
-      "value": "https://cristian-bermudez-back-final-project.onrender.com",
-      "type": "string"
-    }
-  ]
+	"info": {
+		"_postman_id": "911f2fe1-9814-46b0-9cb2-4b70ab6630ae",
+		"name": "Turn-it-Up-Cristian-Bermudez",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20626868"
+	},
+	"item": [
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\":\"marta\",\r\n    \"password\":\"marta\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{origin}}/user/login",
+					"host": [
+						"{{origin}}"
+					],
+					"path": [
+						"user",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Register",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \"name\":\"marta\",\r\n    \"username\":\"marta\", \r\n    \"password\":\"marta\" }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{origin}}/user/register",
+					"host": [
+						"{{origin}}"
+					],
+					"path": [
+						"user",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CREATE project",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1hcnRhIiwiaWQiOiI2Mjk0Zjc2YzhlNTAzMGFkMmFmMjliOWEiLCJpYXQiOjE2NTQzNDEwNjV9.qbUK6NG5cp9Yf1SeHBvmUOuTBwKE6pztEh_XTLCi4hs",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "name",
+							"value": "Rock and ron 810",
+							"type": "text"
+						},
+						{
+							"key": "description",
+							"value": "Concert for the opening of a new Ron store at Ohio city center",
+							"type": "text"
+						},
+						{
+							"key": "roles",
+							"value": "guitarrist",
+							"type": "text"
+						},
+						{
+							"key": "roles",
+							"value": "singer",
+							"type": "text"
+						},
+						{
+							"key": "genres",
+							"value": "rock",
+							"type": "text"
+						},
+						{
+							"key": "genres",
+							"value": "pop",
+							"type": "text"
+						},
+						{
+							"key": "image",
+							"type": "file",
+							"src": "/C:/Users/ccbab_000/Downloads/isdiclass.jpg"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{origin}}/projects/create",
+					"host": [
+						"{{origin}}"
+					],
+					"path": [
+						"projects",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get projects",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1hcnRhIiwiaWQiOiI2Mjk0Zjc2YzhlNTAzMGFkMmFmMjliOWEiLCJpYXQiOjE2NTQzNDEwNjV9.qbUK6NG5cp9Yf1SeHBvmUOuTBwKE6pztEh_XTLCi4hs",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{origin}}/projects",
+					"host": [
+						"{{origin}}"
+					],
+					"path": [
+						"projects"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET By ID",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1hcnRhIiwiaWQiOiI2Mjk0Zjc2YzhlNTAzMGFkMmFmMjliOWEiLCJpYXQiOjE2NTQzNDEwNjV9.qbUK6NG5cp9Yf1SeHBvmUOuTBwKE6pztEh_XTLCi4hs",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{origin}}/projects/62a433edc8558dcc4385312c",
+					"host": [
+						"{{origin}}"
+					],
+					"path": [
+						"projects",
+						"62a433edc8558dcc4385312c"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET BY USER",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1hcnRhIiwiaWQiOiI2Mjk0Zjc2YzhlNTAzMGFkMmFmMjliOWEiLCJpYXQiOjE2NTQzNDEwNjV9.qbUK6NG5cp9Yf1SeHBvmUOuTBwKE6pztEh_XTLCi4hs",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{origin}}/projects/user",
+					"host": [
+						"{{origin}}"
+					],
+					"path": [
+						"projects",
+						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "EDIT project",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1hcnRhIiwiaWQiOiI2Mjk0Zjc2YzhlNTAzMGFkMmFmMjliOWEiLCJpYXQiOjE2NTQzNDEwNjV9.qbUK6NG5cp9Yf1SeHBvmUOuTBwKE6pztEh_XTLCi4hs",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "name",
+							"value": "Rock and Code",
+							"type": "text"
+						},
+						{
+							"key": "description",
+							"value": "Concert for the opening of a new Ron store at Ohio city center",
+							"type": "text"
+						},
+						{
+							"key": "roles",
+							"value": "guitarrist",
+							"type": "text"
+						},
+						{
+							"key": "roles",
+							"value": "singer",
+							"type": "text"
+						},
+						{
+							"key": "genres",
+							"value": "rock",
+							"type": "text"
+						},
+						{
+							"key": "genres",
+							"value": "pop",
+							"type": "text"
+						},
+						{
+							"key": "image",
+							"type": "file",
+							"src": "/C:/Users/ccbab_000/Downloads/isdiclass.jpg"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{origin}}/projects/62a0f3a1d88d2ac96d0ae039",
+					"host": [
+						"{{origin}}"
+					],
+					"path": [
+						"projects",
+						"62a0f3a1d88d2ac96d0ae039"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE projects",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1hcnRhIiwiaWQiOiI2Mjk0Zjc2YzhlNTAzMGFkMmFmMjliOWEiLCJpYXQiOjE2NTQzNDEwNjV9.qbUK6NG5cp9Yf1SeHBvmUOuTBwKE6pztEh_XTLCi4hs",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{origin}}/projects/:id",
+					"host": [
+						"{{origin}}"
+					],
+					"path": [
+						"projects",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer"
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "origin",
+			"value": "https://cristian-bermudez-back-final-project.onrender.com",
+			"type": "string"
+		}
+	]
 }

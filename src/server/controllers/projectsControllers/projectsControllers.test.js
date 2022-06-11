@@ -10,6 +10,7 @@ const {
   createProject,
   getProjectsbyUser,
   editProject,
+  getProjectById,
 } = require("./projectsControllers");
 
 describe("Given getProjects function", () => {
@@ -299,6 +300,61 @@ describe("Given editProject function", () => {
       User.findById = jest.fn().mockRejectedValueOnce(new Error());
 
       await editProject(req, res, next);
+
+      expect(next).toHaveBeenCalledWith(expectedError);
+    });
+  });
+});
+
+describe("Given getProjectById function", () => {
+  const res = {
+    status: jest.fn().mockReturnThis(),
+    json: jest.fn(),
+  };
+  const next = jest.fn();
+
+  describe("When invoked with a correct request and it finds project", () => {
+    test("Then it should call the response status method 200 and it's json method with the found project", async () => {
+      const expectedStatus = 200;
+      const expectedJson = { project: mockProject };
+      const req = {
+        params: { id: mockProject.id },
+      };
+      Project.findById = jest.fn().mockResolvedValueOnce(mockProject);
+
+      await getProjectById(req, res);
+      expect(res.status).toHaveBeenCalledWith(expectedStatus);
+      expect(res.json).toHaveBeenCalledWith(expectedJson);
+    });
+  });
+
+  describe("When invoked with a wrong request", () => {
+    test("Then it should call next with an error with a message 'Bad request' and statusCode 400", async () => {
+      const expectedError = new Error();
+      expectedError.statusCode = 400;
+      expectedError.customMessage = "Bad request";
+      const req = {
+        params: {},
+      };
+      Project.findById = jest.fn().mockResolvedValueOnce({});
+
+      await getProjectById(req, res, next);
+
+      expect(next).toHaveBeenCalledWith(expectedError);
+    });
+  });
+
+  describe("When invoked with a correct request but an error occurs", () => {
+    test("Then it should call next with an error with a message 'Not found' and statusCode 404", async () => {
+      const expectedError = new Error();
+      expectedError.statusCode = 404;
+      expectedError.message = "Not found";
+      const req = {
+        params: { id: mockProject.id },
+      };
+      Project.findById = jest.fn().mockRejectedValueOnce(new Error());
+
+      await getProjectById(req, res, next);
 
       expect(next).toHaveBeenCalledWith(expectedError);
     });
