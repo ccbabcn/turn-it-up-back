@@ -30,4 +30,18 @@ const mockProject = {
   roles: ["drummer", "guitarrist", "bass player", "singer", "keyboard"],
 };
 
-module.exports = { mockProject, mockProjects };
+const mockPopulatedProject = {
+  id: "629b4850703ff9261686d9cd",
+  name: "Rock and ron",
+  description: "Concert for the opening of a new Ron store at Ohio city center",
+  image:
+    "https://offloadmedia.feverup.com/madridsecreto.co/wp-content/uploads/2019/04/08105701/Madrid-Secreto-Legendario-Tempo-4-1024x683.jpg",
+  genres: ["rock"],
+  roles: ["drummer", "guitarrist", "bass player", "singer", "keyboard"],
+  owner: {
+    name: "marta",
+    id: "6294f76c8e5030ad2af29b9a",
+  },
+};
+
+module.exports = { mockProject, mockProjects, mockPopulatedProject };

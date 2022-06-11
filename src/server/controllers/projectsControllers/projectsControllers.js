@@ -23,14 +23,16 @@ const getProjectsbyUser = async (req, res, next) => {
   try {
     const { userId } = req;
     debug(chalk.yellow(`Get projects from ${userId} request received`));
-    const userProjects = await User.findOne({ _id: userId }).populate(
+    const userPopulatedProjects = await User.findOne({ _id: userId }).populate(
       "createdprojects",
       null,
       Project
     );
     debug(chalk.green(`Get projects from ${userId} request completed`));
 
-    res.status(200).json({ userProjects });
+    res
+      .status(200)
+      .json({ userProjects: userPopulatedProjects.createdprojects });
   } catch (error) {
     debug(chalk.red("Projects from the user not found"));
     error.statusCode = 404;
@@ -143,7 +145,11 @@ const getProjectById = async (req, res, next) => {
 
       next(error);
     }
-    const project = await Project.findById(projectId);
+    const project = await Project.findById(projectId).populate(
+      "owner",
+      "name",
+      User
+    );
     res.status(200).json({ project });
     debug(chalk.green("Get project by ID success"));
   } catch (error) {

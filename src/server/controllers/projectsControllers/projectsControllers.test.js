@@ -3,7 +3,11 @@ const User = require("../../../database/models/User");
 const {
   mockProjects,
   mockProject,
+  mockPopulatedProject,
 } = require("../../mocks/mockProjects/mockProjects");
+const {
+  mockUserPopulatedProjects,
+} = require("../../mocks/mocksUsers/mocksUsers");
 const {
   getProjects,
   deleteProject,
@@ -191,13 +195,15 @@ describe("Given getProjectsbyUser function", () => {
       };
 
       User.findOne = jest.fn(() => ({
-        populate: jest.fn().mockReturnValue(mockProject),
+        populate: jest.fn().mockReturnValue(mockUserPopulatedProjects),
       }));
 
       await getProjectsbyUser(req, res, next);
 
       expect(res.status).toHaveBeenCalledWith(200);
-      expect(res.json).toHaveBeenCalledWith({ userProjects: mockProject });
+      expect(res.json).toHaveBeenCalledWith({
+        userProjects: mockUserPopulatedProjects.createdprojects,
+      });
     });
   });
 
@@ -316,15 +322,19 @@ describe("Given getProjectById function", () => {
   describe("When invoked with a correct request and it finds project", () => {
     test("Then it should call the response status method 200 and it's json method with the found project", async () => {
       const expectedStatus = 200;
-      const expectedJson = { project: mockProject };
       const req = {
         params: { id: mockProject.id },
       };
-      Project.findById = jest.fn().mockResolvedValueOnce(mockProject);
+
+      Project.findById = jest.fn(() => ({
+        populate: jest.fn().mockReturnValue(mockPopulatedProject),
+      }));
 
       await getProjectById(req, res);
       expect(res.status).toHaveBeenCalledWith(expectedStatus);
-      expect(res.json).toHaveBeenCalledWith(expectedJson);
+      expect(res.json).toHaveBeenCalledWith({
+        project: mockPopulatedProject,
+      });
     });
   });
 
@@ -352,7 +362,9 @@ describe("Given getProjectById function", () => {
       const req = {
         params: { id: mockProject.id },
       };
-      Project.findById = jest.fn().mockRejectedValueOnce(new Error());
+      Project.findById = jest.fn(() => ({
+        populate: jest.fn().mockRejectedValueOnce(new Error()),
+      }));
 
       await getProjectById(req, res, next);
 
