@@ -44,4 +44,25 @@ const mockPopulatedProject = {
   },
 };
 
-module.exports = { mockProject, mockProjects, mockPopulatedProject };
+const mockPaginatedProject = {
+  page: 0,
+  pagesize: 6,
+  total: 1,
+  results: [
+    {
+      name: "mockProjectName",
+      description: "MockDescriptiob",
+      image: "mockImage",
+      imagebackup: "mockImageBackground",
+      genres: ["rock", "blues", "pop"],
+      roles: ["drummer", "guitarrist", "singer"],
+    },
+  ],
+};
+
+module.exports = {
+  mockProject,
+  mockProjects,
+  mockPopulatedProject,
+  mockPaginatedProject,
+};

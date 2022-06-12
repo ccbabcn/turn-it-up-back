@@ -8,21 +8,19 @@ const connectDatabase = require("../../../database");
 
 const Project = require("../../../database/models/Project");
 const {
-  mockProjects,
   mockProject,
+  mockPaginatedProject,
 } = require("../../mocks/mockProjects/mockProjects");
 const User = require("../../../database/models/User");
 
 let mongoServer;
-
 beforeAll(async () => {
   mongoServer = await MongoMemoryServer.create();
   await connectDatabase(mongoServer.getUri());
 });
 
 beforeEach(async () => {
-  await Project.create(mockProjects[0]);
-  await Project.create(mockProjects[1]);
+  await Project.create(mockPaginatedProject.results[0]);
 });
 
 afterEach(async () => {
@@ -44,13 +42,31 @@ describe("Given a GET '/projects' endpoint", () => {
     test("Then it should respond with status 200 and a list of projects", async () => {
       verify.mockImplementation(() => "mockVerifyValue");
 
-      Project.find = jest.fn().mockResolvedValueOnce(mockProjects);
+      const expectedResult = await Project.findOne({
+        name: mockPaginatedProject.results[0].name,
+      });
+      const expectedBody = {
+        page: 0,
+        pagesize: 6,
+        total: 1,
+        results: [
+          {
+            id: expectedResult.id,
+            name: "mockProjectName",
+            description: "MockDescriptiob",
+            image: "mockImage",
+            imagebackup: "mockImageBackground",
+            genres: ["rock", "blues", "pop"],
+            roles: ["drummer", "guitarrist", "singer"],
+          },
+        ],
+      };
       const { body } = await request(app)
         .get("/projects")
         .set({ authorization: "Bearer mocktoken" })
         .expect(200);
 
-      expect(body.projects).toEqual(mockProjects);
+      expect(body).toEqual(expectedBody);
     });
   });
 
