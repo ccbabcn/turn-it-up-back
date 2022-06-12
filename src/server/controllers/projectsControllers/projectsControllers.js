@@ -1,3 +1,4 @@
+require("dotenv").config();
 const debug = require("debug")("turnitup:server:projectsControllers");
 const chalk = require("chalk");
 
