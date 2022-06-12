@@ -7,14 +7,99 @@ const User = require("../../../database/models/User");
 
 const getProjects = async (req, res, next) => {
   try {
-    debug(chalk.green("Get projects request received"));
-    const projects = await Project.find();
-    res.status(200).json({ projects });
-  } catch (error) {
-    debug(chalk.red("Projects not found"));
-    error.statusCode = 404;
-    error.message = "Not found";
+    const page = +(req.query?.page || 0);
+    let pagesize = +(req.query?.pagesize || 6);
+    if (pagesize > 6) {
+      pagesize = 6;
+    }
 
+    let queryNextPrev = "";
+    const filter = {};
+    if (req.query?.genre) {
+      debug(
+        chalk.yellow(
+          `Get projects by genre: ${req.query?.genre} request received`
+        )
+      );
+
+      filter.genres = req.query.genre;
+      queryNextPrev += `genre=${req.query.genre}`;
+    }
+    if (req.query?.role) {
+      debug(
+        chalk.yellow(
+          `Get projects by role: ${req.query?.role} request received`
+        )
+      );
+
+      filter.roles = req.query.role;
+      queryNextPrev += `role=${req.query.role}`;
+    }
+
+    if (req.query?.user) {
+      debug(chalk.yellow(`Get projects by user request received`));
+
+      filter.owner = req.userId;
+      queryNextPrev += `user=${req.query.user}`;
+    }
+
+    const projects = await Project.find(filter)
+      .limit(pagesize)
+      .skip(page * pagesize);
+
+    const total = await Project.count(filter);
+
+    const projectsList = projects.map(
+      ({
+        _id: id,
+        name,
+        description,
+        image,
+        imagebackup,
+        genres,
+        roles,
+        owner,
+      }) => ({
+        id,
+        name,
+        description,
+        image,
+        imagebackup,
+        genres,
+        roles,
+        owner,
+      })
+    );
+    const domainUrl = process.env.API_URL;
+
+    let nextpage = `${domainUrl}projects?page=${
+      page + 1
+    }&pageSize=${pagesize}&${queryNextPrev}`;
+    if (page >= Math.trunc(total / pagesize)) {
+      nextpage = undefined;
+    }
+
+    let previous;
+    if (page > 0) {
+      previous = `${domainUrl}projects?page=${
+        page - 1
+      }&pageSize=${pagesize}&${queryNextPrev}`;
+    }
+
+    const response = {
+      page,
+      pagesize,
+      nextpage,
+      previous,
+      total,
+      results: projectsList,
+    };
+
+    res.status(200).json(response);
+  } catch (error) {
+    debug(error);
+    error.statusCode = 404;
+    error.customMessage = "Not found";
     next(error);
   }
 };

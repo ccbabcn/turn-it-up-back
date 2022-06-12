@@ -1,7 +1,6 @@
 const Project = require("../../../database/models/Project");
 const User = require("../../../database/models/User");
 const {
-  mockProjects,
   mockProject,
   mockPopulatedProject,
 } = require("../../mocks/mockProjects/mockProjects");
@@ -9,43 +8,12 @@ const {
   mockUserPopulatedProjects,
 } = require("../../mocks/mocksUsers/mocksUsers");
 const {
-  getProjects,
   deleteProject,
   createProject,
   getProjectsbyUser,
   editProject,
   getProjectById,
 } = require("./projectsControllers");
-
-describe("Given getProjects function", () => {
-  const res = {
-    status: jest.fn().mockReturnThis(),
-    json: jest.fn(),
-  };
-  describe("When invoked with a response and it finds projects", () => {
-    test("Then it should call the response status method 200", async () => {
-      const expectedStatus = 200;
-      Project.find = jest.fn().mockResolvedValueOnce(mockProjects);
-
-      await getProjects(null, res);
-      expect(res.status).toHaveBeenCalledWith(expectedStatus);
-    });
-  });
-
-  describe("When invoked with a response but an error occurs", () => {
-    test("Then it should call next with an error with a message 'Not found' and statusCode 404", async () => {
-      const expectedError = new Error();
-      expectedError.statusCode = 404;
-      expectedError.message = "Not found";
-      const next = jest.fn();
-      Project.find = jest.fn().mockRejectedValueOnce(new Error());
-
-      await getProjects(null, res, next);
-
-      expect(next).toHaveBeenCalledWith(expectedError);
-    });
-  });
-});
 
 describe("Given deleteProject function", () => {
   describe("When it's invoqued with a response and a request with an existing id to delete", () => {
