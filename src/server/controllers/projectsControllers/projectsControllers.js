@@ -147,7 +147,7 @@ const getProjectById = async (req, res, next) => {
     }
     const project = await Project.findById(projectId).populate(
       "owner",
-      "name",
+      "username",
       User
     );
     res.status(200).json({ project });

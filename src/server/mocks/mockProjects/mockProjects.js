@@ -39,7 +39,7 @@ const mockPopulatedProject = {
   genres: ["rock"],
   roles: ["drummer", "guitarrist", "bass player", "singer", "keyboard"],
   owner: {
-    name: "marta",
+    username: "marta",
     id: "6294f76c8e5030ad2af29b9a",
   },
 };
