@@ -367,8 +367,7 @@ describe("Given a getProjects function", () => {
         page: 2,
         pagesize: 6,
         nextpage: undefined,
-        previous:
-          "http://localhost:4000/projects?page=1&pageSize=6&genre=rockrole=singeruser=userID",
+        previous: `${process.env.API_URL_FETCHER}projects?page=1&pageSize=6&genre=rockrole=singeruser=userID`,
         total: 3,
         results: mockGetProjects,
       };
