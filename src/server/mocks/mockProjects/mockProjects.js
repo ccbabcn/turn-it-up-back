@@ -60,9 +60,105 @@ const mockPaginatedProject = {
   ],
 };
 
+const mockGetProjects = [
+  {
+    id: undefined,
+    name: "Rock and ron",
+    description:
+      "Concert for the opening of a new Ron store at Ohio city center",
+    image:
+      "https://offloadmedia.feverup.com/madridsecreto.co/wp-content/uploads/2019/04/08105701/Madrid-Secreto-Legendario-Tempo-4-1024x683.jpg",
+    imagebackup: "imagebackupurl.jpg",
+    genres: ["rock"],
+    roles: ["drummer", "guitarrist", "bass player", "singer", "keyboard"],
+    owner: "userId1",
+  },
+  {
+    id: undefined,
+    name: "Blues for blass",
+    description: "Last concert of Blass a famous blues guitarrist",
+    image:
+      "https://offloadmedia.feverup.com/madridsecreto.co/wp-content/uploads/2019/04/08105701/Madrid-Secreto-Legendario-Tempo-4-1024x683.jpg",
+    imagebackup: "imagebackupurl.jpg",
+    genres: ["blues"],
+    roles: ["drummer", "guitarrist", "bass player", "singer"],
+    owner: "userId1",
+  },
+  {
+    id: undefined,
+    name: "Rock and ron",
+    description:
+      "Concert for the opening of a new Ron store at Ohio city center",
+    image:
+      "https://offloadmedia.feverup.com/madridsecreto.co/wp-content/uploads/2019/04/08105701/Madrid-Secreto-Legendario-Tempo-4-1024x683.jpg",
+    imagebackup: "imagebackupurl.jpg",
+    genres: ["rock"],
+    roles: ["drummer", "guitarrist", "bass player", "singer", "keyboard"],
+    owner: "userId1",
+  },
+  {
+    id: undefined,
+    name: "Blues for blass",
+    description: "Last concert of Blass a famous blues guitarrist",
+    image:
+      "https://offloadmedia.feverup.com/madridsecreto.co/wp-content/uploads/2019/04/08105701/Madrid-Secreto-Legendario-Tempo-4-1024x683.jpg",
+    imagebackup: "imagebackupurl.jpg",
+    genres: ["blues"],
+    roles: ["drummer", "guitarrist", "bass player", "singer"],
+    owner: "userId1",
+  },
+  {
+    id: undefined,
+    name: "Rock and ron",
+    description:
+      "Concert for the opening of a new Ron store at Ohio city center",
+    image:
+      "https://offloadmedia.feverup.com/madridsecreto.co/wp-content/uploads/2019/04/08105701/Madrid-Secreto-Legendario-Tempo-4-1024x683.jpg",
+    imagebackup: "imagebackupurl.jpg",
+    genres: ["rock"],
+    roles: ["drummer", "guitarrist", "bass player", "singer", "keyboard"],
+    owner: "userId1",
+  },
+  {
+    id: undefined,
+    name: "Blues for blass",
+    description: "Last concert of Blass a famous blues guitarrist",
+    image:
+      "https://offloadmedia.feverup.com/madridsecreto.co/wp-content/uploads/2019/04/08105701/Madrid-Secreto-Legendario-Tempo-4-1024x683.jpg",
+    imagebackup: "imagebackupurl.jpg",
+    genres: ["blues"],
+    roles: ["drummer", "guitarrist", "bass player", "singer"],
+    owner: "userId1",
+  },
+  {
+    id: undefined,
+    name: "Rock and ron",
+    description:
+      "Concert for the opening of a new Ron store at Ohio city center",
+    image:
+      "https://offloadmedia.feverup.com/madridsecreto.co/wp-content/uploads/2019/04/08105701/Madrid-Secreto-Legendario-Tempo-4-1024x683.jpg",
+    imagebackup: "imagebackupurl.jpg",
+    genres: ["rock"],
+    roles: ["drummer", "guitarrist", "bass player", "singer", "keyboard"],
+    owner: "userId1",
+  },
+  {
+    id: undefined,
+    name: "Blues for blass",
+    description: "Last concert of Blass a famous blues guitarrist",
+    image:
+      "https://offloadmedia.feverup.com/madridsecreto.co/wp-content/uploads/2019/04/08105701/Madrid-Secreto-Legendario-Tempo-4-1024x683.jpg",
+    imagebackup: "imagebackupurl.jpg",
+    genres: ["blues"],
+    roles: ["drummer", "guitarrist", "bass player", "singer"],
+    owner: "userId1",
+  },
+];
+
 module.exports = {
   mockProject,
   mockProjects,
   mockPopulatedProject,
   mockPaginatedProject,
+  mockGetProjects,
 };

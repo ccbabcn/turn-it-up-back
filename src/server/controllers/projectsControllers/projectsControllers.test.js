@@ -3,6 +3,7 @@ const User = require("../../../database/models/User");
 const {
   mockProject,
   mockPopulatedProject,
+  mockGetProjects,
 } = require("../../mocks/mockProjects/mockProjects");
 const {
   mockUserPopulatedProjects,
@@ -13,7 +14,17 @@ const {
   getProjectsbyUser,
   editProject,
   getProjectById,
+  getProjects,
 } = require("./projectsControllers");
+
+jest.mock("../../../database/models/Project", () => ({
+  findOne: jest.fn(),
+  find: jest.fn().mockReturnThis(),
+  sort: jest.fn().mockReturnThis(),
+  limit: jest.fn().mockReturnThis(),
+  skip: jest.fn(),
+  count: jest.fn(),
+}));
 
 describe("Given deleteProject function", () => {
   describe("When it's invoqued with a response and a request with an existing id to delete", () => {
@@ -337,6 +348,76 @@ describe("Given getProjectById function", () => {
       await getProjectById(req, res, next);
 
       expect(next).toHaveBeenCalledWith(expectedError);
+    });
+  });
+});
+
+describe("Given a getProjects function", () => {
+  describe("When it is called with query params", () => {
+    test("Then it should call the response method with status 200 and it should return all Projects matching those params", async () => {
+      const res = {
+        status: jest.fn().mockReturnThis(),
+        json: jest.fn(),
+      };
+      Project.skip.mockImplementation(() => mockGetProjects);
+
+      Project.count.mockImplementation(() => 3);
+
+      const expectedResponse = {
+        page: 2,
+        pagesize: 6,
+        nextpage: undefined,
+        previous:
+          "https://cristian-bermudez-back-final-project.onrender.com/projects?page=1&pageSize=6&genre=rockrole=singeruser=userID",
+        total: 3,
+        results: mockGetProjects,
+      };
+      const expectedStatus = 200;
+
+      const req = {
+        query: {
+          page: 2,
+          pagesize: 7,
+          genre: "rock",
+          user: "userID",
+          role: "singer",
+        },
+      };
+
+      await getProjects(req, res, null);
+
+      expect(res.status).toHaveBeenCalledWith(expectedStatus);
+      expect(res.json).toHaveBeenCalledWith(expectedResponse);
+    });
+  });
+
+  describe("When it is called with query params", () => {
+    test("Then it should call the response method with status 200 and it should return all Projects matching those params", async () => {
+      const res = {
+        status: jest.fn().mockReturnThis(),
+        json: jest.fn(),
+      };
+      const newError = new Error();
+      newError.status = 404;
+      newError.customMessage = "Not found";
+
+      Project.skip.mockRejectedValueOnce(newError);
+
+      const next = jest.fn();
+
+      const req = {
+        query: {
+          page: 0,
+          pagesize: 6,
+          genre: "rock",
+          user: "userID",
+          role: "singer",
+        },
+      };
+
+      await getProjects(req, res, next);
+
+      expect(next).toHaveBeenCalledWith(newError);
     });
   });
 });

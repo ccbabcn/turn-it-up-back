@@ -1,6 +1,6 @@
 # Turn it Up (Back)
 
-Api para leer, crear, modificar y borrar proyectos de una base de datos de proyectos musicales. Todos los endpoints estan protegidos para usuarios no registrados.
+Api MERN con CRUD para leer, crear, modificar y borrar proyectos de una base de datos de proyectos musicales. Todos los endpoints estan protegidos para usuarios no registrados.
 
 ## Endpoints de la API.
 
@@ -14,8 +14,8 @@ Api para leer, crear, modificar y borrar proyectos de una base de datos de proye
 
 ### Proyectos
 
-- `Información de todos los proyectos`  
-  (GET) /projects
+- `Información de todos los proyectos paginados`  
+  (GET) /projects, acepta querys genre= / role= / user=userID
 
 - `Informacion de un projecto`  
   (GET) /projects/:id
