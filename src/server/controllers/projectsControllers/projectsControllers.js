@@ -72,7 +72,6 @@ const getProjects = async (req, res, next) => {
       })
     );
     const domainUrl =
-      process.env.API_URL_FETCHER ??
       "https://cristian-bermudez-back-final-project.onrender.com/";
 
     let nextpage = `${domainUrl}projects?page=${

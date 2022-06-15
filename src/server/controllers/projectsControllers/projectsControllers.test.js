@@ -367,7 +367,8 @@ describe("Given a getProjects function", () => {
         page: 2,
         pagesize: 6,
         nextpage: undefined,
-        previous: `${process.env.API_URL_FETCHER}projects?page=1&pageSize=6&genre=rockrole=singeruser=userID`,
+        previous:
+          "https://cristian-bermudez-back-final-project.onrender.com/projects?page=1&pageSize=6&genre=rockrole=singeruser=userID",
         total: 3,
         results: mockGetProjects,
       };
