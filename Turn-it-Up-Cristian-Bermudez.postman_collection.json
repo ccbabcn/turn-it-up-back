@@ -273,6 +273,97 @@
         }
       },
       "response": []
+    },
+    {
+      "name": "GET By genre \"rock\"",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1hcnRhIiwiaWQiOiI2Mjk0Zjc2YzhlNTAzMGFkMmFmMjliOWEiLCJpYXQiOjE2NTQzNDEwNjV9.qbUK6NG5cp9Yf1SeHBvmUOuTBwKE6pztEh_XTLCi4hs",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{origin}}/projects/?genre=rock",
+          "host": ["{{origin}}"],
+          "path": ["projects", ""],
+          "query": [
+            {
+              "key": "genre",
+              "value": "rock"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GET By Role \"singer\"",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1hcnRhIiwiaWQiOiI2Mjk0Zjc2YzhlNTAzMGFkMmFmMjliOWEiLCJpYXQiOjE2NTQzNDEwNjV9.qbUK6NG5cp9Yf1SeHBvmUOuTBwKE6pztEh_XTLCi4hs",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{origin}}/projects/?role=singer",
+          "host": ["{{origin}}"],
+          "path": ["projects", ""],
+          "query": [
+            {
+              "key": "role",
+              "value": "singer"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GET By genre \"rock\" & role \"guitarrist\"",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1hcnRhIiwiaWQiOiI2Mjk0Zjc2YzhlNTAzMGFkMmFmMjliOWEiLCJpYXQiOjE2NTQzNDEwNjV9.qbUK6NG5cp9Yf1SeHBvmUOuTBwKE6pztEh_XTLCi4hs",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{origin}}/projects/?genre=rock&role=guitarrist",
+          "host": ["{{origin}}"],
+          "path": ["projects", ""],
+          "query": [
+            {
+              "key": "genre",
+              "value": "rock"
+            },
+            {
+              "key": "role",
+              "value": "guitarrist"
+            }
+          ]
+        }
+      },
+      "response": []
     }
   ],
   "auth": {
