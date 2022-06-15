@@ -353,8 +353,48 @@ describe("Given getProjectById function", () => {
 });
 
 describe("Given a getProjects function", () => {
-  describe("When it is called with query params", () => {
-    test("Then it should call the response method with status 200 and it should return all Projects matching those params", async () => {
+  describe("When it is called with query params to get the page 2/4 by user, role and genre", () => {
+    test("Then it should call the response method with status 200 and it should return all Projects matching those params, the nextpage and previous", async () => {
+      const res = {
+        status: jest.fn().mockReturnThis(),
+        json: jest.fn(),
+      };
+      Project.skip.mockImplementation(() => mockGetProjects);
+
+      Project.count.mockImplementation(() => 19);
+
+      const expectedResponse = {
+        page: 2,
+        pagesize: 6,
+        nextpage:
+          "https://cristian-bermudez-back-final-project.onrender.com/projects?page=3&pageSize=6&genre=rockrole=singeruser=userID",
+
+        previous:
+          "https://cristian-bermudez-back-final-project.onrender.com/projects?page=1&pageSize=6&genre=rockrole=singeruser=userID",
+        total: 19,
+        results: mockGetProjects,
+      };
+      const expectedStatus = 200;
+
+      const req = {
+        query: {
+          page: 2,
+          pagesize: 6,
+          genre: "rock",
+          user: "userID",
+          role: "singer",
+        },
+      };
+
+      await getProjects(req, res);
+
+      expect(res.status).toHaveBeenCalledWith(expectedStatus);
+      expect(res.json).toHaveBeenCalledWith(expectedResponse);
+    });
+  });
+
+  describe("When it is called with query params to get the page 3/3 by user, role, genre and a attempt to set pagesize to 7", () => {
+    test("Then it should call the response method with status 200 and it should return all Projects matching those params, nextpage as undefined and the pagesize set te 6", async () => {
       const res = {
         status: jest.fn().mockReturnThis(),
         json: jest.fn(),
@@ -364,11 +404,11 @@ describe("Given a getProjects function", () => {
       Project.count.mockImplementation(() => 3);
 
       const expectedResponse = {
-        page: 2,
+        page: 3,
         pagesize: 6,
         nextpage: undefined,
         previous:
-          "https://cristian-bermudez-back-final-project.onrender.com/projects?page=1&pageSize=6&genre=rockrole=singeruser=userID",
+          "https://cristian-bermudez-back-final-project.onrender.com/projects?page=2&pageSize=6&genre=rockrole=singeruser=userID",
         total: 3,
         results: mockGetProjects,
       };
@@ -376,7 +416,7 @@ describe("Given a getProjects function", () => {
 
       const req = {
         query: {
-          page: 2,
+          page: 3,
           pagesize: 7,
           genre: "rock",
           user: "userID",
@@ -384,7 +424,7 @@ describe("Given a getProjects function", () => {
         },
       };
 
-      await getProjects(req, res, null);
+      await getProjects(req, res);
 
       expect(res.status).toHaveBeenCalledWith(expectedStatus);
       expect(res.json).toHaveBeenCalledWith(expectedResponse);
