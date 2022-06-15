@@ -73,7 +73,6 @@ const getProjects = async (req, res, next) => {
     );
     const domainUrl =
       "https://cristian-bermudez-back-final-project.onrender.com/";
-
     let nextpage = `${domainUrl}projects?page=${
       page + 1
     }&pageSize=${pagesize}&${queryNextPrev}`;
