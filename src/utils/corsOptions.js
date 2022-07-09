@@ -12,6 +12,8 @@ const corsOptions = {
     "http://localhost:5002",
     "https://cristian-bermudez-front-final-project-202204-bcn.netlify.app/",
     "https://cristian-bermudez-front-final-project-202204-bcn.netlify.app",
+    "https://turn-it-up-back.onrender.com",
+    "https://turn-it-up-back.onrender.com/",
   ],
 };
 
