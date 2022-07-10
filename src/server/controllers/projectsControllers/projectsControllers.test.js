@@ -367,10 +367,10 @@ describe("Given a getProjects function", () => {
         page: 2,
         pagesize: 6,
         nextpage:
-          "https://cristian-bermudez-back-final-project.onrender.com/projects?page=3&pageSize=6&genre=rockrole=singeruser=userID",
+          "https://turn-it-up-back.onrender.com/projects?page=3&pageSize=6&genre=rockrole=singeruser=userID",
 
         previous:
-          "https://cristian-bermudez-back-final-project.onrender.com/projects?page=1&pageSize=6&genre=rockrole=singeruser=userID",
+          "https://turn-it-up-back.onrender.com/projects?page=1&pageSize=6&genre=rockrole=singeruser=userID",
         total: 19,
         results: mockGetProjects,
       };
@@ -408,7 +408,7 @@ describe("Given a getProjects function", () => {
         pagesize: 6,
         nextpage: undefined,
         previous:
-          "https://cristian-bermudez-back-final-project.onrender.com/projects?page=2&pageSize=6&genre=rockrole=singeruser=userID",
+          "https://turn-it-up-back.onrender.com/projects?page=2&pageSize=6&genre=rockrole=singeruser=userID",
         total: 3,
         results: mockGetProjects,
       };
